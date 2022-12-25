@@ -1,6 +1,14 @@
 import React from 'react'
+import { useNavigate } from 'react-router-dom';
 
 function Header() {
+  const navigate = useNavigate();
+  const handleProfileClick = () => {
+    navigate('/profile');
+  }
+  const handleHomeClick=()=>{
+    navigate('/');
+  }
   return (
     <header id="header" className="header d-flex align-items-center">
     <div className="container-fluid container-xl d-flex align-items-center justify-content-between">
@@ -11,10 +19,10 @@ function Header() {
       </a>
       <nav id="navbar" className="navbar">
         <ul>
-          <li><a href="#hero">Home</a></li>
+          <li><a href="#hero" onClick={handleHomeClick}>Home</a></li>
           <li><a href="#about">About</a></li>
           <li><a href="#services">Services</a></li>
-          <li><a href="#portfolio">Portfolio</a></li>
+          <li><a  href="#"onClick={handleProfileClick}>Profile</a></li>
           <li><a href="#team">Team</a></li>
           <li><a href="blog.html">Blog</a></li>
           <li className="dropdown"><a href="#"><span>Drop Down</span> <i className="bi bi-chevron-down dropdown-indicator" /></a>
