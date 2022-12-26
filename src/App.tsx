@@ -9,6 +9,7 @@ import Services from './components/Services';
 import Profile from './components/Profile';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Home from './components/Home';
+import EditProfile from './components/EditProfile';
 function App() {
   return (
     <div className="App">
@@ -17,6 +18,7 @@ function App() {
       
       <Route path="/" element={<Home />} />
       <Route path="/profile" element={ <Profile/>} />
+      <Route path='/edit/profile' element={<EditProfile/>}/>
       </Routes>
        </BrowserRouter>
      
