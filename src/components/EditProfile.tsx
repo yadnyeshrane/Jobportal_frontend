@@ -1,8 +1,40 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import { editProfileDetails, fecthUserDeatils } from './appi';
 import Header from './Header'
 import Topbar from './Topbar'
 
 function EditProfile() {
+  const [userdata,setUserData]=useState<any>({})
+  useEffect(() => {
+    getDetails();
+  
+    return () => {
+      
+    }
+  }, [])
+
+  async function getDetails()
+  {
+    const data=await fecthUserDeatils("name");
+    setUserData(data.data)
+    console.log("Data",data);
+  }
+  const handleChange=(e:any,type=1)=>{
+    if(type==1)
+    {
+      setUserData({...userdata,[e.target.name]:e.target.value})
+    }
+    else{
+      setUserData({...userdata,[e.target.name]:e.target.files[0]})
+    }
+    
+
+  }
+
+  const handleClick=async()=>{
+console.log("FOrmData",userdata)
+await editProfileDetails(userdata);
+  }
   return (
     <>
     <Topbar/>
@@ -18,12 +50,26 @@ function EditProfile() {
                 <h4 className="text-right">Profile Edit Settings</h4>
               </div>
               <div className="row mt-2">
-                <div className="col-md-6"><label className="labels">Name</label><input type="text" className="form-control" placeholder="first name"  /></div>
-                <div className="col-md-6"><label className="labels">Surname</label><input type="text" className="form-control"  placeholder="surname" /></div>
+                <div className="col-md-6"><label className="labels">Name</label><input type="text" className="form-control" placeholder="first name" 
+                name='name'
+                onChange={(e)=>handleChange(e)}
+                value={userdata.name}
+                
+                /></div>
+                <div className="col-md-6"><label className="labels">Surname</label><input type="text" className="form-control"  placeholder="surname"
+                 value={userdata.surname}
+                 name="surname"
+                 onChange={(e)=>handleChange(e)}
+                
+                /></div>
               </div>
               <div className="row mt-3">
-                <div className="col-md-12"><label className="labels">Mobile Number</label><input type="text" className="form-control" placeholder="enter phone number"  /></div>
-                <div className="col-md-12"><label className="labels">Email ID</label><input type="text" className="form-control" placeholder="enter email id"  /></div>
+                <div className="col-md-12"><label className="labels">Mobile Number</label><input type="text" className="form-control" placeholder="enter phone number" 
+                value={userdata.mobileno}
+                /></div>
+                <div className="col-md-12"><label className="labels">Email ID</label><input type="text" className="form-control" placeholder="enter email id" 
+                value={userdata.email}
+                /></div>
                 
                 <div className="col-md-12"><label className="labels">Address Line 1</label><input type="text" className="form-control" placeholder="enter address line 1"  /></div>
                 <div className="col-md-12"><label className="labels">Address Line 2</label><input type="text" className="form-control" placeholder="enter address line 2"  /></div>
@@ -36,7 +82,10 @@ function EditProfile() {
                 <div className="col-md-6"><label className="labels">Country</label><input type="text" className="form-control" placeholder="country"  /></div>
                 <div className="col-md-6"><label className="labels">State/Region</label><input type="text" className="form-control"  placeholder="state" /></div>
               </div>
-              <div className="mt-5 text-center"><button className="btn btn-primary profile-button" type="button">Save Profile</button></div>
+              <div className="mt-5 text-center"><button className="btn btn-primary profile-button" type="button"
+              onClick={handleClick}
+              
+              >Save Profile</button></div>
             </div>
           </div>
           <div className="col-md-4">
@@ -47,7 +96,10 @@ function EditProfile() {
               <div className="col-md-12"><label className="labels">Pincode</label><input type="number" className="form-control" placeholder="enter pincode"  /></div>
               <div className="col-md-12 py-4"><label className="labels">Adhar Card</label>
               <div className='col-md-12'>
-             <input type="file" className="form-control" id="customFile" />
+             <input type="file" className="form-control" id="customFile" 
+             name='image'
+             onChange={(e)=>handleChange(e,2)}
+             />
               </div>
               </div>
               
