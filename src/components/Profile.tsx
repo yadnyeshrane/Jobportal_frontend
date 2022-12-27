@@ -8,7 +8,7 @@ function Profile() {
   const navigate = useNavigate();
   const [userdata,setUserData]=useState<any>({})
   const editProfile=()=>{
-    navigate('/edit/profile');
+    navigate('/edit_profile');
   }
   useEffect(() => {
     getDetails();
