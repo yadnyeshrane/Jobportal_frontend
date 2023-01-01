@@ -185,7 +185,7 @@ function Profile() {
                   <img
                     alt=""
                     style={{ height: "300px" }}
-                    src={"http://localhost:7000/" + userdata.image}
+                    src={"http://localhost:5000/" + userdata.image}
                   />
                 </div>
               </div>

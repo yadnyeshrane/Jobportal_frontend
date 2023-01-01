@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom';
 import { editProfileDetails, fecthUserDeatils } from './appi';
 import Header from './Header'
 import Topbar from './Topbar'
 
 function EditProfile() {
+  const navigate = useNavigate();
   const [userdata,setUserData]=useState<any>({})
   useEffect(() => {
     getDetails();
@@ -34,6 +36,7 @@ function EditProfile() {
   const handleClick=async()=>{
 console.log("FOrmData",userdata)
 await editProfileDetails(userdata);
+navigate("/profile")
   }
   return (
     <>
@@ -90,7 +93,7 @@ await editProfileDetails(userdata);
           </div>
           <div className="col-md-4">
             <div className="p-3 py-5">
-              <div className="d-flex justify-content-between align-items-center experience"><h4>Native Place adress</h4><span className="border px-3 p-1 add-experience"><i className="fa fa-plus" />&nbsp;Edit</span></div><br />
+              <div className="d-flex justify-content-between align-items-center experience"><h4>Native Place adress</h4></div><br />
               <div className="col-md-12"><label className="labels">Address Line 1</label><input type="text" className="form-control" placeholder="enter address line 1"  /></div>
               <div className="col-md-12"><label className="labels">Address Line 2</label><input type="text" className="form-control" placeholder="enter address line 2"  /></div>
               <div className="col-md-12"><label className="labels">Pincode</label><input type="number" className="form-control" placeholder="enter pincode"  /></div>
