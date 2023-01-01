@@ -12,6 +12,7 @@ import EditProfile from "./components/EditProfile";
 import Login from "./components/Authentication/Login";
 import Register from "./components/Authentication/Register";
 import PrivateRoute from "./common/PrivateRoute";
+import Category from "./components/Category/Category";
 
 function App() {
     return (
@@ -24,6 +25,7 @@ function App() {
                     <Route path="/" element={<Home />} />
                     <Route path="/profile" element={<Profile />} />
                     <Route path="/edit_profile" element={<EditProfile />} />
+                    <Route path="/category" element={<Category />} />
                 </Route>
             </Routes>
         </BrowserRouter>
