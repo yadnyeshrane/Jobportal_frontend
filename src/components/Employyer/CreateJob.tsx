@@ -941,7 +941,7 @@ function CreateJob() {
                                     <label htmlFor="job_position">
                                         Mode of job
                                     </label>
-                                    <div className="row d-flex">
+                                    <div className="d-flex">
                                         <div className="form-check col-sm-4 ">
                                             <input
                                                 className="form-check-input"

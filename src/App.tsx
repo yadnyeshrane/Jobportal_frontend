@@ -14,6 +14,7 @@ import Register from "./components/Authentication/Register";
 import PrivateRoute from "./common/PrivateRoute";
 import Category from "./components/Category/Category";
 import CreateJob from "./components/Employyer/CreateJob";
+import ResumeForm from "./components/Employee/ResumeForm";
 
 function App() {
     return (
@@ -28,6 +29,7 @@ function App() {
                     <Route path="/edit_profile" element={<EditProfile />} />
                     <Route path="/category" element={<Category />} />
                     <Route path="/createjob" element={<CreateJob />} />
+                    <Route path="/update_resume" element={<ResumeForm />} />
                 </Route>
             </Routes>
         </BrowserRouter>
