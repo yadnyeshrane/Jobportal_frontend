@@ -7,35 +7,64 @@ const phoneRegExp =
     /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
 
 const SignupSchema = Yup.object().shape({
-    name: Yup.string().required("FirstName should not be empty!"),
-    surname: Yup.string().required("Lastname should not be empty!"),
-    mobileno: Yup.string()
-        .matches(phoneRegExp, "Phone number is not valid")
+    compnayname: Yup.string().required("Company name should not be empty!"),
+    adressline_1: Yup.string().required("Adress field cannot be empty"),
+    adressline_2: Yup.string(),
+    state: Yup.string().required("State  should not be empty!"),
+    postcode: Yup.string().required("Postcode  should not be empty!"),
+    companyemail: Yup.string().email("Invalid email format!"),
+    comapny_mob: Yup.string().matches(phoneRegExp, "Phone number is not valid")
         .length(10, "mobile number should be 10 charecters long")
         .required("Mobile Number should not be empty!"),
-    email: Yup.string()
-        .email("Invalid email format!")
-        .required("Email should not be empty!"),
-    password: Yup.string()
-        .min(8, "Password should be atleast 8 characters long!")
-        .required("Password should not be empty!"),
-    confirm_password: Yup.string()
-        .oneOf([Yup.ref("password")], "Password's not match!")
-        .required("Required!"),
+        comapny_aletrmob:Yup.string(),
+        position:Yup.string().required("Position field should not be empty!")   ,
+        vacany: Yup.string().required("Vacany, field should not be empty!"),
+        min_exp:Yup.string().required("Minimum experience field should not be empty!"),
+        max_exp:Yup.string().required("Maximum experience field should not be empty!"),
+        min_salary:Yup.string().required("Maximum salary field should not be empty!"),
+        max_salary:Yup.string().required("Maximum salary field should not be empty!"),
+    //     .required("Email should not be empty!")
+    // surname: Yup.string().required("Lastname should not be empty!"),
+    // mobileno: Yup.string()
+    //     .matches(phoneRegExp, "Phone number is not valid")
+    //     .length(10, "mobile number should be 10 charecters long")
+    //     .required("Mobile Number should not be empty!"),
+    // email: Yup.string()
+    //     .email("Invalid email format!")
+    //     .required("Email should not be empty!"),
+    // password: Yup.string()
+    //     .min(8, "Password should be atleast 8 characters long!")
+    //     .required("Password should not be empty!"),
+    // confirm_password: Yup.string()
+    //     .oneOf([Yup.ref("password")], "Password's not match!")
+    //     .required("Required!"),
 });
 function CreateJob() {
     const formik = useFormik({
         initialValues: {
-            name: "",
-            surname: "",
-            mobileno: "",
-            email: "",
-            password: "",
-            confirm_password: "",
+            compnayname: "",
+            adressline_1: "",
+            adressline_2: "",
+            state: "",
+            postcode: "",
+            companyemail: "",
+            comapny_mob:"",
+            comapny_aletrmob:"",
+            position:"",
+            vacany:"",
+            min_exp:"",
+        max_exp:"",
+        min_salary:"",
+        max_salary:""
+            // surname: "",
+            // mobileno: "",
+            // email: "",
+            // password: "",
+            // confirm_password: "",
         },
         validationSchema: SignupSchema,
         onSubmit: (values) => {
-          //  handleSignup(values);
+            //  handleSignup(values);
         },
     });
     return (
@@ -57,34 +86,25 @@ function CreateJob() {
                                 <option>Hr(Human Resources)</option>
                                 <option>Marketing</option>
                             </select>
-                            {/* <input
-            type="text"
-            className="form-control"
-            name="fname"
-            id="name-f"
-            placeholder="Enter your first name."
-          /> */}
                         </div>
-                        <div className="col-sm-6 ">
-                            {/* <label htmlFor="name-l">Last name</label>
-          <input
-            type="text"
-            className="form-control"
-            name="lname"
-            id="name-l"
-            placeholder="Enter your last name."
-            
-          /> */}
-                        </div>
+                        <div className="col-sm-6 "></div>
                         <div className="col-sm-6 form-group mt-4">
-                            <label htmlFor="company_name">Company Name</label>
+                            <label htmlFor="compnayname">Company Name</label>
                             <input
                                 type="text"
                                 className="form-control"
-                                name="company_name"
-                                id="company_name"
+                                name="compnayname"
+                                id="compnayname"
                                 placeholder="Enter your Company Name."
+                                value={formik.values.compnayname}
+                                onChange={formik.handleChange}
                             />
+                            {formik.errors.compnayname &&
+                                formik.touched.compnayname && (
+                                    <p className="error-msg">
+                                        {formik.errors.compnayname}
+                                    </p>
+                                )}
                         </div>
                         <div className="col-sm-6 form-group"></div>
                         <div className="row">
@@ -96,10 +116,18 @@ function CreateJob() {
                                     <input
                                         type="address"
                                         className="form-control"
-                                        name="Locality"
-                                        id="address-1"
+                                        name="adressline_1"
+                                        id="adressline_1"
                                         placeholder="Locality/House/Street no."
+                                        value={formik.values.adressline_1}
+                                        onChange={formik.handleChange}
                                     />
+                                    {formik.errors.adressline_1 &&
+                                        formik.touched.adressline_1 && (
+                                            <p className="error-msg">
+                                                {formik.errors.adressline_1}
+                                            </p>
+                                        )}
                                 </div>
 
                                 <div className=" form-group">
@@ -109,9 +137,11 @@ function CreateJob() {
                                     <input
                                         type="address"
                                         className="form-control"
-                                        name="address"
+                                        name="adressline_2"
                                         id="address-2"
                                         placeholder="Village/City Name."
+                                        value={formik.values.adressline_2}
+                                        onChange={formik.handleChange}
                                     />
                                 </div>
                                 <div className="row">
@@ -120,10 +150,18 @@ function CreateJob() {
                                         <input
                                             type="address"
                                             className="form-control"
-                                            name="State"
-                                            id="State"
+                                            name="state"
+                                            id="state"
                                             placeholder="Enter your state name."
+                                            value={formik.values.state}
+                                            onChange={formik.handleChange}
                                         />
+                                        {formik.errors.state &&
+                                            formik.touched.state && (
+                                                <p className="error-msg">
+                                                    {formik.errors.state}
+                                                </p>
+                                            )}
                                     </div>
                                     <div className="col-sm-4 form-group">
                                         <label htmlFor="Country">Country</label>
@@ -799,67 +837,103 @@ function CreateJob() {
                                         </select>
                                     </div>
                                     <div className="col-sm-3 form-group">
-                                        <label htmlFor="zip">Postal-Code</label>
+                                        <label htmlFor="postcode">
+                                            Postal-Code
+                                        </label>
                                         <input
-                                            type="zip"
+                                            type="Zip"
                                             className="form-control"
-                                            name="Zip"
-                                            id="zip"
+                                            name="postcode"
+                                            id="postcode"
                                             placeholder="Postal-Code."
+                                            value={formik.values.postcode}
+                                            onChange={formik.handleChange}
                                         />
+                                        {formik.errors.postcode &&
+                                            formik.touched.postcode && (
+                                                <p className="error-msg">
+                                                    {formik.errors.postcode}
+                                                </p>
+                                            )}
                                     </div>
                                 </div>
                             </div>
                             <div className="col-sm-6 form-group">
                                 <div className=" form-group">
-                                    <label htmlFor="company_email">Email</label>
+                                    <label htmlFor="companyemail">Email</label>
                                     <input
                                         type="email"
                                         className="form-control"
-                                        name="company_email"
-                                        id="company_email"
+                                        name="companyemail"
+                                        id="companyemail"
                                         placeholder="Company Email"
+                                        value={formik.values.companyemail}
+                                        onChange={formik.handleChange}
                                     />
+                                    {formik.errors.companyemail &&
+                                        formik.touched.companyemail && (
+                                            <p className="error-msg">
+                                                {formik.errors.companyemail}
+                                            </p>
+                                        )}
                                 </div>
 
                                 <div className=" form-group">
-                                    <label htmlFor="company_mob1">Mobile</label>
+                                    <label htmlFor="comapny_mob">Mobile</label>
                                     <input
                                         type="text"
                                         className="form-control"
-                                        name="company_mob1"
-                                        id="company_mob1"
+                                        name="comapny_mob"
+                                        id="comapny_mob"
                                         placeholder="Mobile No"
                                         maxLength={10}
+                                        value={formik.values.comapny_mob}
+                                        onChange={formik.handleChange}
                                     />
+                                     {formik.errors.comapny_mob &&
+                                        formik.touched.comapny_mob && (
+                                            <p className="error-msg">
+                                                {formik.errors.comapny_mob}
+                                            </p>
+                                        )}
                                 </div>
                                 <div className=" form-group">
-                                    <label htmlFor="company_mob2">
+                                    <label htmlFor="comapny_aletrmob">
                                         Alternate Mobile
                                     </label>
                                     <input
                                         type="text"
                                         className="form-control"
-                                        name="company_mob2"
-                                        id="company_mob2"
+                                        name="comapny_aletrmob"
+                                        id="comapny_aletrmob"
                                         placeholder="Alternate Mobile"
                                         maxLength={10}
+                                        value={formik.values.comapny_aletrmob}
+                                        onChange={formik.handleChange}
                                     />
                                 </div>
                             </div>
                         </div>
                         <div id="job_details " className="mt-5">
                             <div className=" col-sm-6 form-group">
-                                <label htmlFor="job_position">
+                                <label htmlFor="position">
                                     Job Position
                                 </label>
                                 <input
                                     type="text"
                                     className="form-control"
-                                    name="job_position"
-                                    id="job_position"
-                                    placeholder="Alternate Mobile"
+                                    name="position"
+                                    id="position"
+                                    placeholder="Job Position"
+                                    value={formik.values.position}
+                                    onChange={formik.handleChange}
                                 />
+                                   {formik.errors.position &&
+                                        formik.touched.position && (
+                                            <p className="error-msg">
+                                                {formik.errors.position}
+                                            </p>
+                                        )}
                             </div>
 
                             <div className="row">
@@ -911,7 +985,15 @@ function CreateJob() {
                                         name="vacany"
                                         id="vacany"
                                         placeholder="Number of Vacany"
+                                        value={formik.values.vacany}
+                                        onChange={formik.handleChange}
                                     />
+                                     {formik.errors.vacany &&
+                                        formik.touched.vacany && (
+                                            <p className="error-msg">
+                                                {formik.errors.vacany}
+                                            </p>
+                                        )}
                                 </div>
                             </div>
                             <div className="row">
@@ -925,8 +1007,16 @@ function CreateJob() {
                                                 className="form-control"
                                                 name="min_exp"
                                                 id="min_exp"
-                                                placeholder="Number of min_exp"
+                                                placeholder="Minimum Experience"
+                                                value={formik.values.min_exp}
+                                                onChange={formik.handleChange}
                                             />
+                                               {formik.errors.min_exp &&
+                                        formik.touched.min_exp && (
+                                            <p className="error-msg">
+                                                {formik.errors.min_exp}
+                                            </p>
+                                        )}
                                         </div>
                                         <div className="col-sm-6">
                                             <label htmlFor="max_exp">Max</label>
@@ -936,7 +1026,15 @@ function CreateJob() {
                                                 name="max_exp"
                                                 id="max_exp"
                                                 placeholder="Number of max_exp"
+                                                value={formik.values.max_exp}
+                                                onChange={formik.handleChange}
                                             />
+                                             {formik.errors.max_exp &&
+                                        formik.touched.max_exp && (
+                                            <p className="error-msg">
+                                                {formik.errors.max_exp}
+                                            </p>
+                                        )}
                                         </div>
                                     </div>
                                 </div>
@@ -953,7 +1051,15 @@ function CreateJob() {
                                                 name="min_salary"
                                                 id="min_salary"
                                                 placeholder="Number of min_salary"
+                                                value={formik.values.min_salary}
+                                                onChange={formik.handleChange}
                                             />
+                                             {formik.errors.min_salary &&
+                                        formik.touched.min_salary && (
+                                            <p className="error-msg">
+                                                {formik.errors.min_salary}
+                                            </p>
+                                        )}
                                         </div>
                                         <div className="col-sm-6">
                                             <label htmlFor="max_salary">
@@ -965,7 +1071,15 @@ function CreateJob() {
                                                 name="max_salary"
                                                 id="max_salary"
                                                 placeholder="Number of max_salary"
+                                                value={formik.values.max_salary}
+                                                onChange={formik.handleChange}
                                             />
+                                             {formik.errors.max_salary &&
+                                        formik.touched.max_salary && (
+                                            <p className="error-msg">
+                                                {formik.errors.max_salary}
+                                            </p>
+                                        )}
                                         </div>
                                     </div>
                                 </div>
@@ -1004,7 +1118,7 @@ function CreateJob() {
                                 defaultValue={""}
                             />
                         </div>
-                        
+
                         <div className="col-sm-12">
                             <input
                                 type="checkbox"
