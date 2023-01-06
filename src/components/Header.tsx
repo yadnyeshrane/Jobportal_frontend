@@ -36,36 +36,45 @@ function Header() {
                         </li>
                         {/* <li><a href="#about">About</a></li>
           					<li><a href="#services">Services</a></li> */}
-                       
+
                         {localStorage.getItem("loggedInUser") ? (
                             <>
-                            <li>
-                             <a
-                                 className="headerItem"
-                                 href="/createjob"
-                                 // onClick={handleProfileClick}
-                             >
-                                 CreateJob
-                             </a>
-                         </li>
-                             <li>
-                             <a
-                                 className="headerItem"
-                                 href="/profile"
-                                 // onClick={handleProfileClick}
-                             >
-                                 Profile
-                             </a>
-                         </li>
-                            <li
-                                onClick={() => {
-                                    localStorage.removeItem("loggedInUser");
-                                }}
-                            >
-                                <a href="" className="headerItem">
-                                    Logout
-                                </a>
-                            </li>
+                                <li>
+                                    <a
+                                        className="headerItem"
+                                        href="/createjob"
+                                        // onClick={handleProfileClick}
+                                    >
+                                        CreateJob
+                                    </a>
+                                </li>
+                                <li>
+                                    <a
+                                        className="headerItem"
+                                        href="/update_resume"
+                                        // onClick={handleProfileClick}
+                                    >
+                                        Resume
+                                    </a>
+                                </li>
+                                <li>
+                                    <a
+                                        className="headerItem"
+                                        href="/profile"
+                                        // onClick={handleProfileClick}
+                                    >
+                                        Profile
+                                    </a>
+                                </li>
+                                <li
+                                    onClick={() => {
+                                        localStorage.removeItem("loggedInUser");
+                                    }}
+                                >
+                                    <a href="" className="headerItem">
+                                        Logout
+                                    </a>
+                                </li>
                             </>
                         ) : (
                             <>
