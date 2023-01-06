@@ -88,7 +88,8 @@ function Profile() {
                     value={userdata.email}
                   />
                 </div>
-
+                <h4 style={{padding:'5px'}}>Current Adress</h4>
+                 <div>
                 <div className="col-md-12">
                   <label className="labels">Address Line 1</label>
                   <input
@@ -115,6 +116,7 @@ function Profile() {
                     placeholder="enter address line 2"
                     style={{ pointerEvents: "none" }}
                   />
+                </div>
                 </div>
               </div>
               <div className="row mt-3">

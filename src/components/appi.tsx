@@ -86,3 +86,28 @@ export async function userRegister(userData: any) {
         });
 	return response
 }
+
+export async function createJob(userData: any) {
+    const response = await axios({
+        method: "post",
+        url: `http://localhost:5000/api/postjob`,
+        data: userData,
+        // headers: { "Content-Type": "multipart/form-data" },
+    })
+        .then(function (response) {
+            //handle success 
+			return {
+				status : response.status,
+				message: response.data.msg
+			}
+        })
+        .catch(function (error) {
+            //handle error
+			return {
+				status : error.response.status,
+				message: error.response.data.message
+			}	
+
+        });
+	return response
+}

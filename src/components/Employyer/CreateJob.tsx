@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import Header from "../Header";
 import Topbar from "../Topbar";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import { createJob } from "../appi";
 const phoneRegExp =
     /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
 
@@ -13,33 +14,70 @@ const SignupSchema = Yup.object().shape({
     state: Yup.string().required("State  should not be empty!"),
     postcode: Yup.string().required("Postcode  should not be empty!"),
     companyemail: Yup.string().email("Invalid email format!"),
-    comapny_mob: Yup.string().matches(phoneRegExp, "Phone number is not valid")
+    comapny_mob: Yup.string()
+        .matches(phoneRegExp, "Phone number is not valid")
         .length(10, "mobile number should be 10 charecters long")
         .required("Mobile Number should not be empty!"),
-        comapny_aletrmob:Yup.string(),
-        position:Yup.string().required("Position field should not be empty!")   ,
-        vacany: Yup.string().required("Vacany, field should not be empty!"),
-        min_exp:Yup.string().required("Minimum experience field should not be empty!"),
-        max_exp:Yup.string().required("Maximum experience field should not be empty!"),
-        min_salary:Yup.string().required("Maximum salary field should not be empty!"),
-        max_salary:Yup.string().required("Maximum salary field should not be empty!"),
-    //     .required("Email should not be empty!")
-    // surname: Yup.string().required("Lastname should not be empty!"),
-    // mobileno: Yup.string()
-    //     .matches(phoneRegExp, "Phone number is not valid")
-    //     .length(10, "mobile number should be 10 charecters long")
-    //     .required("Mobile Number should not be empty!"),
-    // email: Yup.string()
-    //     .email("Invalid email format!")
-    //     .required("Email should not be empty!"),
-    // password: Yup.string()
-    //     .min(8, "Password should be atleast 8 characters long!")
-    //     .required("Password should not be empty!"),
-    // confirm_password: Yup.string()
-    //     .oneOf([Yup.ref("password")], "Password's not match!")
-    //     .required("Required!"),
+    comapny_aletrmob: Yup.string(),
+    position: Yup.string().required("Position field should not be empty!"),
+    vacany: Yup.string().required("Vacany, field should not be empty!"),
+    min_exp: Yup.string().required(
+        "Minimum experience field should not be empty!"
+    ),
+    max_exp: Yup.string().required(
+        "Maximum experience field should not be empty!"
+    ),
+    min_salary: Yup.string().required(
+        "Maximum salary field should not be empty!"
+    ),
+    max_salary: Yup.string().required(
+        "Maximum salary field should not be empty!"
+    ),
+    categorgy: Yup.string().required("Category field should not be empty!"),
+
+    jobdescription: Yup.string().required(
+        "Description field should not be empty!"
+    ),
+    requiredSkills: Yup.string().required(
+        "Required skiils should not be empty!"
+    ),
+    education: Yup.string().required("Education field should not be empty!"),
 });
 function CreateJob() {
+    const [signupError, setSignupError] = useState<any>(null);
+    const postJob= async (values: any) => {
+        let jobdata = {
+            compnayname: values.compnayname,
+            adressline_1: values.adressline_1,
+            adressline_2: values.adressline_2,
+            state: values.state,
+            postcode: values.postcode,
+            companyemail: values.companyemail,
+            comapny_mob: values.comapny_mob,
+            comapny_aletrmob: values.comapny_aletrmob,
+            position: values.position,
+            vacany: values.vacany,
+            min_exp: values.min_exp,
+            max_exp: values.max_exp,
+            min_salary: values.min_salary,
+            max_salary: values.max_salary,
+            category_enum: values.categorgy,
+            categorgy: values.categorgy,
+            jobnature: values.jobnature.toString(),
+            jobdescription: values.jobdescription,
+            requiredSkills: values.requiredSkills,
+            education: values.education,
+            
+        };
+        const res = await createJob(jobdata);
+        if (res.status === 200) {
+            console.log(res.message);
+           // window.location.replace("/login");
+           alert("Job created sucessfully")
+        } else {
+            setSignupError(res.message);
+        }
+    }
     const formik = useFormik({
         initialValues: {
             compnayname: "",
@@ -48,22 +86,23 @@ function CreateJob() {
             state: "",
             postcode: "",
             companyemail: "",
-            comapny_mob:"",
-            comapny_aletrmob:"",
-            position:"",
-            vacany:"",
-            min_exp:"",
-        max_exp:"",
-        min_salary:"",
-        max_salary:""
-            // surname: "",
-            // mobileno: "",
-            // email: "",
-            // password: "",
-            // confirm_password: "",
+            comapny_mob: "",
+            comapny_aletrmob: "",
+            position: "",
+            vacany: "",
+            min_exp: "",
+            max_exp: "",
+            min_salary: "",
+            max_salary: "",
+            categorgy: "",
+            jobnature: "",
+            jobdescription: "",
+            requiredSkills: "",
+            education: "",
         },
         validationSchema: SignupSchema,
         onSubmit: (values) => {
+            postJob(values)
             //  handleSignup(values);
         },
     });
@@ -73,19 +112,40 @@ function CreateJob() {
             <Header></Header>
 
             <div className="container mt-3">
+            {signupError &&
+                        (console.log("signupError", signupError),
+                        (
+                            <div
+                                className="alert alert-danger alert-dismissible fade show mt-2 mb-0"
+                                role="alert"
+                            >
+                                <strong>Sorry!</strong>&nbsp;{signupError}
+                            </div>
+                        ))}
                 <form onSubmit={formik.handleSubmit}>
                     <div className="row jumbotron box8">
-                        <div className="col-sm-12 mx-t3 mb-4">
-                            <h2 className="text-center text-info">Register</h2>
+                        <div className="col-sm-12 mx-t3">
+                            <h2 className="text-center">Post a job</h2>
                         </div>
                         <div className="col-sm-6 form-group">
                             <label htmlFor="name-f">Job Category</label>
-                            <select className="form-control">
-                                <option>Select</option>
-                                <option>It jobs</option>
-                                <option>Hr(Human Resources)</option>
-                                <option>Marketing</option>
+                            <select
+                                className="form-control"
+                                name="categorgy"
+                                value={formik.values.categorgy}
+                                onChange={formik.handleChange}
+                            >
+                                <option value="">Select</option>
+                                <option value="1">It jobs</option>
+                                <option value="3">Hr(Human Resources)</option>
+                                <option value="2">Marketing</option>
                             </select>
+                            {formik.errors.categorgy &&
+                                formik.touched.categorgy && (
+                                    <p className="error-msg">
+                                        {formik.errors.categorgy}
+                                    </p>
+                                )}
                         </div>
                         <div className="col-sm-6 "></div>
                         <div className="col-sm-6 form-group mt-4">
@@ -890,7 +950,7 @@ function CreateJob() {
                                         value={formik.values.comapny_mob}
                                         onChange={formik.handleChange}
                                     />
-                                     {formik.errors.comapny_mob &&
+                                    {formik.errors.comapny_mob &&
                                         formik.touched.comapny_mob && (
                                             <p className="error-msg">
                                                 {formik.errors.comapny_mob}
@@ -916,9 +976,7 @@ function CreateJob() {
                         </div>
                         <div id="job_details " className="mt-5">
                             <div className=" col-sm-6 form-group">
-                                <label htmlFor="position">
-                                    Job Position
-                                </label>
+                                <label htmlFor="position">Job Position</label>
                                 <input
                                     type="text"
                                     className="form-control"
@@ -928,12 +986,12 @@ function CreateJob() {
                                     value={formik.values.position}
                                     onChange={formik.handleChange}
                                 />
-                                   {formik.errors.position &&
-                                        formik.touched.position && (
-                                            <p className="error-msg">
-                                                {formik.errors.position}
-                                            </p>
-                                        )}
+                                {formik.errors.position &&
+                                    formik.touched.position && (
+                                        <p className="error-msg">
+                                            {formik.errors.position}
+                                        </p>
+                                    )}
                             </div>
 
                             <div className="row">
@@ -946,8 +1004,9 @@ function CreateJob() {
                                             <input
                                                 className="form-check-input"
                                                 type="checkbox"
-                                                value=""
-                                                id="flexCheckDefault"
+                                                value=" Full Time"
+                                                id="jobnature"
+                                                onChange={formik.handleChange}
                                             />
                                             <label className="form-check-label">
                                                 Full Time
@@ -957,8 +1016,9 @@ function CreateJob() {
                                             <input
                                                 className="form-check-input"
                                                 type="checkbox"
-                                                value=""
-                                                id="flexCheckChecked"
+                                                value=" Part Time"
+                                                id="jobnature"
+                                                onChange={formik.handleChange}
                                             />
                                             <label className="form-check-label">
                                                 Part Time
@@ -968,13 +1028,20 @@ function CreateJob() {
                                             <input
                                                 className="form-check-input"
                                                 type="checkbox"
-                                                value=""
-                                                id="flexCheckChecked"
+                                                value="Intern"
+                                                id="jobnature"
+                                                onChange={formik.handleChange}
                                             />
                                             <label className="form-check-label">
                                                 Intern
                                             </label>
                                         </div>
+                                        {formik.errors.jobnature &&
+                                            formik.touched.jobnature && (
+                                                <p className="error-msg">
+                                                    {formik.errors.jobnature}
+                                                </p>
+                                            )}
                                     </div>
                                 </div>
                                 <div className="col-sm-6">
@@ -988,7 +1055,7 @@ function CreateJob() {
                                         value={formik.values.vacany}
                                         onChange={formik.handleChange}
                                     />
-                                     {formik.errors.vacany &&
+                                    {formik.errors.vacany &&
                                         formik.touched.vacany && (
                                             <p className="error-msg">
                                                 {formik.errors.vacany}
@@ -1011,12 +1078,12 @@ function CreateJob() {
                                                 value={formik.values.min_exp}
                                                 onChange={formik.handleChange}
                                             />
-                                               {formik.errors.min_exp &&
-                                        formik.touched.min_exp && (
-                                            <p className="error-msg">
-                                                {formik.errors.min_exp}
-                                            </p>
-                                        )}
+                                            {formik.errors.min_exp &&
+                                                formik.touched.min_exp && (
+                                                    <p className="error-msg">
+                                                        {formik.errors.min_exp}
+                                                    </p>
+                                                )}
                                         </div>
                                         <div className="col-sm-6">
                                             <label htmlFor="max_exp">Max</label>
@@ -1029,12 +1096,12 @@ function CreateJob() {
                                                 value={formik.values.max_exp}
                                                 onChange={formik.handleChange}
                                             />
-                                             {formik.errors.max_exp &&
-                                        formik.touched.max_exp && (
-                                            <p className="error-msg">
-                                                {formik.errors.max_exp}
-                                            </p>
-                                        )}
+                                            {formik.errors.max_exp &&
+                                                formik.touched.max_exp && (
+                                                    <p className="error-msg">
+                                                        {formik.errors.max_exp}
+                                                    </p>
+                                                )}
                                         </div>
                                     </div>
                                 </div>
@@ -1054,12 +1121,15 @@ function CreateJob() {
                                                 value={formik.values.min_salary}
                                                 onChange={formik.handleChange}
                                             />
-                                             {formik.errors.min_salary &&
-                                        formik.touched.min_salary && (
-                                            <p className="error-msg">
-                                                {formik.errors.min_salary}
-                                            </p>
-                                        )}
+                                            {formik.errors.min_salary &&
+                                                formik.touched.min_salary && (
+                                                    <p className="error-msg">
+                                                        {
+                                                            formik.errors
+                                                                .min_salary
+                                                        }
+                                                    </p>
+                                                )}
                                         </div>
                                         <div className="col-sm-6">
                                             <label htmlFor="max_salary">
@@ -1074,49 +1144,72 @@ function CreateJob() {
                                                 value={formik.values.max_salary}
                                                 onChange={formik.handleChange}
                                             />
-                                             {formik.errors.max_salary &&
-                                        formik.touched.max_salary && (
-                                            <p className="error-msg">
-                                                {formik.errors.max_salary}
-                                            </p>
-                                        )}
+                                            {formik.errors.max_salary &&
+                                                formik.touched.max_salary && (
+                                                    <p className="error-msg">
+                                                        {
+                                                            formik.errors
+                                                                .max_salary
+                                                        }
+                                                    </p>
+                                                )}
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div className="form-group">
-                            <label htmlFor="exampleFormControlTextarea1">
+                            <label htmlFor="jobdescription">
                                 Job Description
                             </label>
                             <textarea
                                 className="form-control"
-                                id="exampleFormControlTextarea1"
-                                rows={3}
-                                defaultValue={""}
+                                id="jobdescription"
+                                value={formik.values.jobdescription}
+                                onChange={formik.handleChange}
                             />
+                            {formik.errors.jobdescription &&
+                                formik.touched.jobdescription && (
+                                    <p className="error-msg">
+                                        {formik.errors.jobdescription}
+                                    </p>
+                                )}
                         </div>
                         <div className="form-group">
-                            <label htmlFor="exampleFormControlTextarea1">
+                            <label htmlFor="education">
                                 Education Requirements
                             </label>
                             <textarea
                                 className="form-control"
-                                id="exampleFormControlTextarea1"
+                                id="education"
                                 rows={3}
-                                defaultValue={""}
+                                value={formik.values.education}
+                                onChange={formik.handleChange}
                             />
+                            {formik.errors.education &&
+                                formik.touched.education && (
+                                    <p className="error-msg">
+                                        {formik.errors.education}
+                                    </p>
+                                )}
                         </div>
                         <div className="form-group">
-                            <label htmlFor="exampleFormControlTextarea1">
+                            <label htmlFor="requiredSkills">
                                 Job Requirements
                             </label>
                             <textarea
                                 className="form-control"
-                                id="exampleFormControlTextarea1"
+                                id="requiredSkills"
                                 rows={3}
-                                defaultValue={""}
+                                value={formik.values.requiredSkills}
+                                onChange={formik.handleChange}
                             />
+                            {formik.errors.requiredSkills &&
+                                formik.touched.requiredSkills && (
+                                    <p className="error-msg">
+                                        {formik.errors.requiredSkills}
+                                    </p>
+                                )}
                         </div>
 
                         <div className="col-sm-12">
