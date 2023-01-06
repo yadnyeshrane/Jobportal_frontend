@@ -4,30 +4,30 @@ function Services() {
     const categories = [
         {
             id: 1,
-            name: "IT",
+            name: "Home",
             summery:
-                "Provident nihil minus qui consequatur non omnis maiores. Eos accusantium minus dolores iure perferendis tempore et consequatur.",
+                "Imact provides free services like posting a job,creating a job, providing civil services.These services can avail by anyone which are completely free..!",
             href: "/category",
         },
         {
             id: 1,
-            name: "IT",
+            name: "Profile",
             summery:
-                "Provident nihil minus qui consequatur non omnis maiores. Eos accusantium minus dolores iure perferendis tempore et consequatur.",
+                "A profile info where user can see his profile and if needed he can update the profie.Profile is manditory for using our services so go huury up please update it fast .",
             href: "/category",
         },
         {
             id: 1,
-            name: "IT",
+            name: "Employye",
             summery:
-                "Provident nihil minus qui consequatur non omnis maiores. Eos accusantium minus dolores iure perferendis tempore et consequatur.",
+                "A Employee section where a partiuclar user can update his professionald details & he can avail the free services provided by impact by accepting terms and condition",
             href: "/category",
         },
         {
             id: 1,
-            name: "IT",
+            name: "Employyer",
             summery:
-                "Provident nihil minus qui consequatur non omnis maiores. Eos accusantium minus dolores iure perferendis tempore et consequatur.",
+                "A Employer is one who can create a job .Creating a job is completely free!",
             href: "/category",
         },
         {
