@@ -1213,19 +1213,22 @@ function CreateJob() {
                         </div>
 
                         <div className="col-sm-12">
-                            <input
+                            {/* <input
                                 type="checkbox"
                                 className="form-check d-inline"
                                 id="chb"
                             />
                             <label htmlFor="chb" className="form-check-label">
                                 &nbsp;I accept all terms and conditions.
-                            </label>
+                            </label> */}
                         </div>
-                        <div className="col-sm-12 form-group mb-0">
-                            <button className="btn btn-primary float-right">
+                        <div className="d-grid col-md-4 mt-5 mb-5 m-auto">
+                       
+                        <button className="btn btn-primary ">
                                 Submit
                             </button>
+
+                           
                         </div>
                     </div>
                 </form>
