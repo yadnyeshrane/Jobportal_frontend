@@ -1,43 +1,141 @@
 import { useFormik } from "formik";
-import React from "react";
 import Header from "../Header";
 import Topbar from "../Topbar";
 
 import * as Yup from "yup";
-const phoneRegExp =
-    /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
+import InputError from "../../common/InputError";
+import moment from "moment";
 
-const SignupSchema = Yup.object().shape({
-    // name: Yup.string().required("FirstName should not be empty!"),
-    // surname: Yup.string().required("Lastname should not be empty!"),
-    // mobileno: Yup.string()
-    //     .matches(phoneRegExp, "Phone number is not valid")
-    //     .length(10, "mobile number should be 10 charecters long")
-    //     .required("Mobile Number should not be empty!"),
-    // email: Yup.string()
-    //     .email("Invalid email format!")
-    //     .required("Email should not be empty!"),
-    // password: Yup.string()
-    //     .min(8, "Password should be atleast 8 characters long!")
-    //     .required("Password should not be empty!"),
-    // confirm_password: Yup.string()
-    //     .oneOf([Yup.ref("password")], "Password's not match!")
-    //     .required("Required!"),
+const ResumeSchema = Yup.object().shape({
+    firstname: Yup.string(),
+    lastname: Yup.string(),
+    mobileno: Yup.string(),
+    email: Yup.string(),
+    headline: Yup.string().required("Headline should not be empty!"),
+    job_exp: Yup.string().required("Job Experience should not be empty!"),
+    objective: Yup.string(),
+    relocateFlag: Yup.string().required("Please choose One!"),
+    lookingJob: Yup.string().required("Please choose One!"),
+    prefered_job_sector: Yup.string().required("Please choose Prefered Job Sector!"),
+    job_title: Yup.string(),
+    company_name: Yup.string(),
+    company_location: Yup.string(),
+    cur_working: Yup.boolean(),
+    job_from_date: Yup.string(),
+    job_to_date: Yup.string(),
+    work_description: Yup.string(),
+    education_level: Yup.string(),
+    field_of_study: Yup.string(),
+    school: Yup.string(),
+    school_location: Yup.string(),
+    cur_enrolled: Yup.boolean(),
+    edu_time_from: Yup.string(),
+    edu_time_to: Yup.string(),
+    grade: Yup.string(),
+    skills: Yup.string().required("Skills should not be empty!"),
+    language_known: Yup.string().required("Language Known should not be empty!"),
+    online_profile: Yup.string(),
+    certificate_title: Yup.string(),
+    certification_date: Yup.string(),
+    project_title: Yup.string(),
+    project_link: Yup.string(),
+    project_details: Yup.string(),
 });
 
 function ResumeForm() {
+    const today_date = moment().format("YYYY-MM-DD");
+
     const formik = useFormik({
         initialValues: {
-            // name: "",
-            // surname: "",
-            // mobileno: "",
-            // email: "",
-            // password: "",
-            // confirm_password: "",
+            firstname: "Peter",
+            lastname: "Parker",
+            mobileno: "9876543210",
+            email: "spiderman@marvels.com",
+            headline: "",
+            job_exp: "",
+            objective: "",
+            relocateFlag: "",
+            lookingJob: "",
+            prefered_job_sector: "",
+            job_title: "",
+            company_name: "",
+            company_location: "",
+            cur_working: false,
+            job_from_date: "",
+            job_to_date: "",
+            work_description: "",
+            education_level: "",
+            field_of_study: "",
+            school: "",
+            school_location: "",
+            cur_enrolled: false,
+            edu_time_from: "",
+            edu_time_to: "",
+            grade: "",
+            skills: "",
+            language_known: "",
+            online_profile: "",
+            certificate_title: "",
+            certification_date: "",
+            project_title: "",
+            project_link: "",
+            project_details: "",
         },
-        validationSchema: SignupSchema,
+        validationSchema: ResumeSchema,
         onSubmit: (values) => {
-            //  handleSignup(values);
+            const resume = {
+                name: values.firstname + " " + values.lastname,
+                mobileno: values.mobileno,
+                email: values.email,
+                headline: values.headline,
+                job_exp: values.job_exp,
+                objective: values.objective,
+                relocateFlag: values.relocateFlag,
+                lookingJob: values.lookingJob,
+                prefered_job_sector: values.prefered_job_sector,
+                work_Details: JSON.stringify([
+                    {
+                        job_title: values.job_title,
+                        company_name: values.company_name,
+                        company_location: values.company_location,
+                        cur_working: values.cur_working,
+                        job_from_date: values.job_from_date,
+                        job_to_date: values.job_to_date,
+                        work_description: values.work_description,
+                    },
+                ]),
+                education_Details: [
+                    {
+                        education_level: values.education_level,
+                        field_of_study: values.field_of_study,
+                        school: values.school,
+                        school_location: values.school_location,
+                        cur_enrolled: values.cur_enrolled,
+                        edu_time_from: values.edu_time_from,
+                        edu_time_to: values.edu_time_to,
+                        grade: values.grade,
+                    },
+                ],
+                skills: values.skills,
+                language_known: values.language_known,
+                online_profile: values.online_profile,
+                certification_Details: JSON.stringify([
+                    {
+                        certificate_title: values.certificate_title,
+                        certification_date: values.certification_date,
+                    },
+                ]),
+                project_Details: JSON.stringify([
+                    {
+                        project_title: values.project_title,
+                        project_link: values.project_link,
+                        project_details: values.project_details,
+                    },
+                ]),
+            };
+
+            console.log(resume);
+
         },
     });
 
@@ -49,6 +147,85 @@ function ResumeForm() {
             <div className="container mt-3">
                 <form onSubmit={formik.handleSubmit}>
                     <div className="row jumbotron box8">
+                        <div className="col-sm-6">
+                            <div className="row">
+                                <div className="col-sm-6">
+                                    <label htmlFor="firstname">
+                                        First Name
+                                    </label>
+                                    <input
+                                        type="text"
+                                        className="form-control"
+                                        name="firstname"
+                                        id="firstname"
+                                        disabled
+                                        value={formik.values.firstname}
+                                        onChange={formik.handleChange}
+                                    />
+                                    <InputError
+                                        error={formik.errors.firstname}
+                                        touched={formik.touched.firstname}
+                                    />
+                                </div>
+                                <div className="col-sm-6">
+                                    <label htmlFor="lastname">Last Name</label>
+                                    <input
+                                        type="text"
+                                        className="form-control"
+                                        name="lastname"
+                                        id="lastname"
+                                        disabled
+                                        value={formik.values.lastname}
+                                        onChange={formik.handleChange}
+                                    />
+                                    <InputError
+                                        error={formik.errors.lastname}
+                                        touched={formik.touched.lastname}
+                                    />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="col-sm-6" />
+
+                        <div className="col-sm-6 form-group mt-4">
+                            <label htmlFor="mobileno">Mobile No.</label>
+                            <input
+                                type="text"
+                                className="form-control"
+                                name="mobileno"
+                                id="mobileno"
+                                disabled
+                                value={formik.values.mobileno}
+                                onChange={formik.handleChange}
+                            />
+                            <InputError
+                                error={formik.errors.mobileno}
+                                touched={formik.touched.mobileno}
+                            />
+                        </div>
+
+                        <div className="col-sm-6" />
+
+                        <div className="col-sm-6 form-group mt-4">
+                            <label htmlFor="email">Email</label>
+                            <input
+                                type="text"
+                                className="form-control"
+                                name="email"
+                                id="email"
+                                disabled
+                                value={formik.values.email}
+                                onChange={formik.handleChange}
+                            />
+                            <InputError
+                                error={formik.errors.email}
+                                touched={formik.touched.email}
+                            />
+                        </div>
+
+                        <div className="col-sm-6" />
+
                         <div className="col-sm-6 form-group mt-4">
                             <label htmlFor="headline">Headline</label>
                             <input
@@ -57,10 +234,17 @@ function ResumeForm() {
                                 name="headline"
                                 id="headline"
                                 placeholder=""
+                                value={formik.values.headline}
+                                onChange={formik.handleChange}
+                            />
+                            <InputError
+                                error={formik.errors.headline}
+                                touched={formik.touched.headline}
                             />
                         </div>
 
                         <div className="col-sm-6" />
+
                         <div className="col-sm-6 form-group ">
                             <label htmlFor="job_exp">Job Experience</label>
                             <input
@@ -69,9 +253,17 @@ function ResumeForm() {
                                 name="job_exp"
                                 id="job_exp"
                                 placeholder=""
+                                value={formik.values.job_exp}
+                                onChange={formik.handleChange}
+                            />
+                            <InputError
+                                error={formik.errors.job_exp}
+                                touched={formik.touched.job_exp}
                             />
                         </div>
+
                         <div className="col-sm-6" />
+
                         <div className="col-sm-6 form-group">
                             <div className="form-group">
                                 <label htmlFor="objective">Objective</label>
@@ -79,48 +271,171 @@ function ResumeForm() {
                                     className="form-control"
                                     id="objective"
                                     rows={3}
-                                    defaultValue={""}
+                                    value={formik.values.objective}
+                                    onChange={formik.handleChange}
+                                />
+                                <InputError
+                                    error={formik.errors.objective}
+                                    touched={formik.touched.objective}
                                 />
                             </div>
                         </div>
 
-                        <div className="col-sm-6 form-group" />
+                        <div className="col-sm-6" />
 
                         <div className="col-sm-6 form-group">
                             <label htmlFor="relocateFlag">
                                 Are you willing to relocate
                             </label>
-                            <div className="d-flex">
-                                <div className="form-check col-md-6">
+                            <div
+                                className="d-flex"
+                                // role="group"
+                                // aria-label="Basic radio toggle button group"
+                            >
+                                <div className="col-sm-6">
                                     <input
-                                        className="form-check-input"
+                                        className="form-check-input mx-2 "
                                         type="radio"
-                                        name="flexRadioDefault"
-                                        id="flexRadioDefault2"
-                                        defaultChecked
+                                        name="relocateFlag"
+                                        id="relocateFlagNo"
+                                        value="No"
+                                        checked={
+                                            formik.values.relocateFlag === "No"
+                                        }
+                                        onChange={() =>
+                                            formik.setFieldValue(
+                                                "relocateFlag",
+                                                "No"
+                                            )
+                                        }
                                     />
                                     <label
                                         className="form-check-label"
-                                        htmlFor="flexRadioDefault2"
+                                        htmlFor="relocateFlagNo"
                                     >
                                         No
                                     </label>
                                 </div>
-                                <div className="form-check">
+                                <div className="col-sm-6">
                                     <input
-                                        className="form-check-input"
+                                        className="form-check-input mx-2 "
                                         type="radio"
-                                        name="flexRadioDefault"
-                                        id="flexRadioDefault1"
+                                        name="relocateFlag"
+                                        id="relocateFlagYes"
+                                        value="Yes"
+                                        checked={
+                                            formik.values.relocateFlag === "Yes"
+                                        }
+                                        onChange={() =>
+                                            formik.setFieldValue(
+                                                "relocateFlag",
+                                                "Yes"
+                                            )
+                                        }
                                     />
                                     <label
                                         className="form-check-label"
-                                        htmlFor="flexRadioDefault1"
+                                        htmlFor="relocateFlagYes"
                                     >
                                         Yes
                                     </label>
                                 </div>
                             </div>
+                            <InputError
+                                error={formik.errors.relocateFlag}
+                                touched={formik.touched.relocateFlag}
+                            />
+                        </div>
+
+                        <div className="col-sm-6" />
+
+                        <div className="col-sm-6 form-group">
+                            <label htmlFor="lookingJob">
+                                Looking for a Job
+                            </label>
+                            <div
+                                className="d-flex"
+                                // role="group"
+                                // aria-label="Basic radio toggle button group"
+                            >
+                                <div className="col-sm-6">
+                                    <input
+                                        className="form-check-input mx-2 "
+                                        type="radio"
+                                        name="lookingJob"
+                                        id="lookingJobNo"
+                                        value="No"
+                                        checked={
+                                            formik.values.lookingJob === "No"
+                                        }
+                                        onChange={() =>
+                                            formik.setFieldValue(
+                                                "lookingJob",
+                                                "No"
+                                            )
+                                        }
+                                    />
+                                    <label
+                                        className="form-check-label"
+                                        htmlFor="lookingJobNo"
+                                    >
+                                        No
+                                    </label>
+                                </div>
+                                <div className="col-sm-6">
+                                    <input
+                                        className="form-check-input mx-2 "
+                                        type="radio"
+                                        name="lookingJob"
+                                        id="lookingJobYes"
+                                        value="Yes"
+                                        checked={
+                                            formik.values.lookingJob === "Yes"
+                                        }
+                                        onChange={() =>
+                                            formik.setFieldValue(
+                                                "lookingJob",
+                                                "Yes"
+                                            )
+                                        }
+                                    />
+                                    <label
+                                        className="form-check-label"
+                                        htmlFor="lookingJobYes"
+                                    >
+                                        Yes
+                                    </label>
+                                </div>
+                            </div>
+                            <InputError
+                                error={formik.errors.lookingJob}
+                                touched={formik.touched.lookingJob}
+                            />
+                        </div>
+
+                        <div className="col-sm-6" />
+
+                        <div className="col-sm-6 form-group mt-2">
+                            <label htmlFor="prefered_job_sector">
+                                Prefered Job Sector
+                            </label>
+                            <select
+                                className="form-control"
+                                id="prefered_job_sector"
+                                name="prefered_job_sector"
+                                value={formik.values.prefered_job_sector}
+                                onChange={formik.handleChange}
+                            >
+                                <option value="">Select an option</option>
+                                <option value="None">None</option>
+                                <option value="1">IT</option>
+                                <option value="3">HR </option>
+                                <option value="2">Marketing</option>
+                            </select>
+                            <InputError
+                                error={formik.errors.prefered_job_sector}
+                                touched={formik.touched.prefered_job_sector}
+                            />
                         </div>
 
                         <div className="mt-5" id="work_experience">
@@ -133,6 +448,12 @@ function ResumeForm() {
                                     name="job_title"
                                     id="job_title"
                                     placeholder=""
+                                    value={formik.values.job_title}
+                                    onChange={formik.handleChange}
+                                />
+                                <InputError
+                                    error={formik.errors.job_title}
+                                    touched={formik.touched.job_title}
                                 />
                             </div>
                             <div className="col-sm-6 form-group mt-2">
@@ -143,54 +464,85 @@ function ResumeForm() {
                                     name="company_name"
                                     id="company_name"
                                     placeholder=""
+                                    value={formik.values.company_name}
+                                    onChange={formik.handleChange}
+                                />
+                                <InputError
+                                    error={formik.errors.company_name}
+                                    touched={formik.touched.company_name}
                                 />
                             </div>
                             <div className="col-sm-6 form-group mt-2">
-                                <label htmlFor="work_location">City</label>
+                                <label htmlFor="company_location">City</label>
                                 <input
                                     type="text"
                                     className="form-control"
-                                    name="work_location"
-                                    id="work_location"
+                                    name="company_location"
+                                    id="company_location"
                                     placeholder=""
+                                    value={formik.values.company_location}
+                                    onChange={formik.handleChange}
+                                />
+                                <InputError
+                                    error={formik.errors.company_location}
+                                    touched={formik.touched.company_location}
                                 />
                             </div>
                             <div className="col-sm-6 form-group mt-2">
                                 <label htmlFor="time_period">Time period</label>
-                                <div className="col-md-6 form-check">
+                                <div className="form-check">
                                     <input
                                         className="form-check-input"
-                                        type="radio"
-                                        name="flexRadioDefault"
-                                        id="flexRadioDefault2"
-                                        defaultChecked
+                                        type="checkbox"
+                                        name="cur_working"
+                                        id="cur_working"
+                                        checked={formik.values.cur_working}
+                                        onChange={(e) =>
+                                            formik.setFieldValue(
+                                                "cur_working",
+                                                e.target.checked
+                                            )
+                                        }
                                     />
-                                    <label
-                                        className="form-check-label"
-                                        htmlFor="flexRadioDefault2"
-                                    >
+                                    <label className="form-check-label">
                                         I currently work here
                                     </label>
                                 </div>
                                 <div className="row">
                                     <div className="col-sm-6">
-                                        <label htmlFor="from_date">From</label>
+                                        <label htmlFor="job_from_date">
+                                            From
+                                        </label>
                                         <input
                                             type="date"
                                             className="form-control"
-                                            name="from_date"
-                                            id="from_date"
+                                            name="job_from_date"
+                                            id="job_from_date"
                                             placeholder=""
+                                            value={formik.values.job_from_date}
+                                            onChange={formik.handleChange}
                                         />
                                     </div>
                                     <div className="col-sm-6">
-                                        <label htmlFor="to_date">To </label>
+                                        <label htmlFor="job_to_date">To </label>
                                         <input
                                             type="date"
                                             className="form-control"
-                                            name="to_date"
-                                            id="to_date"
-                                            placeholder=""
+                                            name="job_to_date"
+                                            id="job_to_date"
+                                            disabled={
+                                                formik.values.cur_working ===
+                                                true
+                                                    ? true
+                                                    : false
+                                            }
+                                            value={
+                                                formik.values.cur_working
+                                                    ? (formik.values.job_to_date =
+                                                          today_date)
+                                                    : formik.values.job_to_date
+                                            }
+                                            onChange={formik.handleChange}
                                         />
                                     </div>
                                 </div>
@@ -211,8 +563,16 @@ function ResumeForm() {
                                     <textarea
                                         className="form-control"
                                         id="work_description"
+                                        name="work_description"
                                         rows={3}
-                                        defaultValue={""}
+                                        value={formik.values.work_description}
+                                        onChange={formik.handleChange}
+                                    />
+                                    <InputError
+                                        error={formik.errors.work_description}
+                                        touched={
+                                            formik.touched.work_description
+                                        }
                                     />
                                 </div>
                             </div>
@@ -226,8 +586,10 @@ function ResumeForm() {
                                 </label>
                                 <select
                                     className="form-control"
-                                    id="select-15"
-                                    name="degree"
+                                    id="education_level"
+                                    name="education_level"
+                                    value={formik.values.education_level}
+                                    onChange={formik.handleChange}
                                 >
                                     <option value="">Select an option</option>
                                     <option value="None">None</option>
@@ -245,6 +607,10 @@ function ResumeForm() {
                                     <option value="Doctorate">Doctorate</option>
                                     <option value="OTHER_KEY">Custom</option>
                                 </select>
+                                <InputError
+                                    error={formik.errors.education_level}
+                                    touched={formik.touched.education_level}
+                                />
                             </div>
 
                             <div className="col-sm-6 form-group mt-2">
@@ -257,6 +623,12 @@ function ResumeForm() {
                                     name="field_of_study"
                                     id="field_of_study"
                                     placeholder=""
+                                    value={formik.values.field_of_study}
+                                    onChange={formik.handleChange}
+                                />
+                                <InputError
+                                    error={formik.errors.field_of_study}
+                                    touched={formik.touched.field_of_study}
                                 />
                             </div>
                             <div className="col-sm-6 form-group mt-2">
@@ -269,6 +641,12 @@ function ResumeForm() {
                                     name="school"
                                     id="school"
                                     placeholder=""
+                                    value={formik.values.school}
+                                    onChange={formik.handleChange}
+                                />
+                                <InputError
+                                    error={formik.errors.school}
+                                    touched={formik.touched.school}
                                 />
                             </div>
                             <div className="col-sm-6 form-group mt-2">
@@ -281,22 +659,31 @@ function ResumeForm() {
                                     name="school_location"
                                     id="school_location"
                                     placeholder=""
+                                    value={formik.values.school_location}
+                                    onChange={formik.handleChange}
+                                />
+                                <InputError
+                                    error={formik.errors.school_location}
+                                    touched={formik.touched.school_location}
                                 />
                             </div>
                             <div className="col-sm-6 form-group mt-2">
                                 <label htmlFor="edu_time">Time period</label>
-                                <div className="col-md-6 form-check">
+                                <div className="form-check">
                                     <input
                                         className="form-check-input"
-                                        type="radio"
-                                        name="flexRadioDefault"
-                                        id="flexRadioDefault2"
-                                        defaultChecked
+                                        type="checkbox"
+                                        name="cur_enrolled"
+                                        id="cur_enrolled"
+                                        checked={formik.values.cur_enrolled}
+                                        onChange={(e) =>
+                                            formik.setFieldValue(
+                                                "cur_enrolled",
+                                                e.target.checked
+                                            )
+                                        }
                                     />
-                                    <label
-                                        className="form-check-label"
-                                        htmlFor="flexRadioDefault2"
-                                    >
+                                    <label className="form-check-label">
                                         Currently Enrolled
                                     </label>
                                 </div>
@@ -308,9 +695,11 @@ function ResumeForm() {
                                         <input
                                             type="date"
                                             className="form-control"
-                                            name="min_salary"
-                                            id="min_salary"
-                                            placeholder="Number of min_salary"
+                                            name="edu_time_from"
+                                            id="edu_time_from"
+                                            placeholder=""
+                                            value={formik.values.edu_time_from}
+                                            onChange={formik.handleChange}
                                         />
                                     </div>
                                     <div className="col-sm-6">
@@ -318,9 +707,21 @@ function ResumeForm() {
                                         <input
                                             type="date"
                                             className="form-control"
-                                            name="max_salary"
-                                            id="max_salary"
-                                            placeholder="Number of max_salary"
+                                            name="edu_time_to"
+                                            id="edu_time_to"
+                                            disabled={
+                                                formik.values.cur_enrolled ===
+                                                true
+                                                    ? true
+                                                    : false
+                                            }
+                                            value={
+                                                formik.values.cur_enrolled
+                                                    ? (formik.values.edu_time_to =
+                                                          today_date)
+                                                    : formik.values.edu_time_to
+                                            }
+                                            onChange={formik.handleChange}
                                         />
                                     </div>
                                 </div>
@@ -335,6 +736,12 @@ function ResumeForm() {
                                     name="grade"
                                     id="grade"
                                     placeholder=""
+                                    value={formik.values.grade}
+                                    onChange={formik.handleChange}
+                                />
+                                <InputError
+                                    error={formik.errors.grade}
+                                    touched={formik.touched.grade}
                                 />
                             </div>
                         </div>
@@ -347,17 +754,29 @@ function ResumeForm() {
                                     name="skills"
                                     id="skills"
                                     className="form-control"
+                                    value={formik.values.skills}
+                                    onChange={formik.handleChange}
+                                />
+                                <InputError
+                                    error={formik.errors.skills}
+                                    touched={formik.touched.skills}
                                 />
                             </div>
                             <div className="col-sm-6 form-group">
-                                <label htmlFor="language">
+                                <label htmlFor="language_known">
                                     Languages Known
                                 </label>
                                 <input
                                     type="text"
-                                    name="language"
-                                    id="language"
+                                    name="language_known"
+                                    id="language_known"
                                     className="form-control"
+                                    value={formik.values.language_known}
+                                    onChange={formik.handleChange}
+                                />
+                                <InputError
+                                    error={formik.errors.language_known}
+                                    touched={formik.touched.language_known}
                                 />
                             </div>
                         </div>
@@ -372,6 +791,12 @@ function ResumeForm() {
                                     name="online_profile"
                                     id="online_profile"
                                     className="form-control"
+                                    value={formik.values.online_profile}
+                                    onChange={formik.handleChange}
+                                />
+                                <InputError
+                                    error={formik.errors.online_profile}
+                                    touched={formik.touched.online_profile}
                                 />
                             </div>
                         </div>
@@ -390,17 +815,31 @@ function ResumeForm() {
                                     name="certificate_title"
                                     id="certificate_title"
                                     placeholder=""
+                                    value={formik.values.certificate_title}
+                                    onChange={formik.handleChange}
+                                />
+                                <InputError
+                                    error={formik.errors.certificate_title}
+                                    touched={formik.touched.certificate_title}
                                 />
                             </div>
 
                             <div className="col-sm-6 form-group mt-2">
-                                <label htmlFor="cert_date">Date Issued</label>
+                                <label htmlFor="certification_date">
+                                    Date Issued
+                                </label>
                                 <input
                                     type="date"
                                     className="form-control"
-                                    name="cert_date"
-                                    id="cert_date"
+                                    name="certification_date"
+                                    id="certification_date"
                                     placeholder=""
+                                    value={formik.values.certification_date}
+                                    onChange={formik.handleChange}
+                                />
+                                <InputError
+                                    error={formik.errors.certification_date}
+                                    touched={formik.touched.certification_date}
                                 />
                             </div>
                         </div>
@@ -417,6 +856,12 @@ function ResumeForm() {
                                     name="project_title"
                                     id="project_title"
                                     placeholder=""
+                                    value={formik.values.project_title}
+                                    onChange={formik.handleChange}
+                                />
+                                <InputError
+                                    error={formik.errors.project_title}
+                                    touched={formik.touched.project_title}
                                 />
                             </div>
 
@@ -428,6 +873,12 @@ function ResumeForm() {
                                     name="project_link"
                                     id="project_link"
                                     placeholder=""
+                                    value={formik.values.project_link}
+                                    onChange={formik.handleChange}
+                                />
+                                <InputError
+                                    error={formik.errors.project_link}
+                                    touched={formik.touched.project_link}
                                 />
                             </div>
                             <div className="col-sm-6 form-group">
@@ -443,8 +894,14 @@ function ResumeForm() {
                                     <textarea
                                         className="form-control"
                                         id="project_details"
+                                        name="project_details"
                                         rows={3}
-                                        defaultValue={""}
+                                        value={formik.values.project_details}
+                                        onChange={formik.handleChange}
+                                    />
+                                    <InputError
+                                        error={formik.errors.project_details}
+                                        touched={formik.touched.project_details}
                                     />
                                 </div>
                             </div>
