@@ -15,6 +15,8 @@ import PrivateRoute from "./common/PrivateRoute";
 import Category from "./components/Category/Category";
 import CreateJob from "./components/Employyer/CreateJob";
 import ResumeForm from "./components/Employee/ResumeForm";
+import Resume from "./components/Employee/Resume";
+import EmployeeSec from "./components/Employee/EmployeeSec";
 
 function App() {
     return (
@@ -30,6 +32,8 @@ function App() {
                     <Route path="/category" element={<Category />} />
                     <Route path="/createjob" element={<CreateJob />} />
                     <Route path="/update_resume" element={<ResumeForm />} />
+                    <Route path="/employee" element={<EmployeeSec />} />
+                    <Route path="/resume" element={<Resume />} />
                 </Route>
             </Routes>
         </BrowserRouter>

@@ -51,6 +51,15 @@ function Header() {
                                 <li>
                                     <a
                                         className="headerItem"
+                                        href="/employee"
+                                        // onClick={handleProfileClick}
+                                    >
+                                        Employee
+                                    </a>
+                                </li>
+                                <li>
+                                    <a
+                                        className="headerItem"
                                         href="/update_resume"
                                         // onClick={handleProfileClick}
                                     >

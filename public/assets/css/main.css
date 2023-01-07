@@ -2765,3 +2765,29 @@ section {
 .error-msg{
 color: red;
 }
+
+.resume_title{
+  display: inline-block;
+  font: 37px/40px 'Rozha One', serif;
+  color: #009282;
+  position: relative;
+  letter-spacing: -0.8px;
+}
+
+.section_title{
+  display: inline-block;
+  font: 26px/40px 'Rozha One', serif;
+  color: #000000;
+  position: relative;
+  letter-spacing: -0.8px;
+}
+
+.secondary_txt{
+  font-style: italic
+}
+
+/* .text{
+  display: flex
+} */
+
+

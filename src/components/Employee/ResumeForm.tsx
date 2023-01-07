@@ -16,7 +16,9 @@ const ResumeSchema = Yup.object().shape({
     objective: Yup.string(),
     relocateFlag: Yup.string().required("Please choose One!"),
     lookingJob: Yup.string().required("Please choose One!"),
-    prefered_job_sector: Yup.string().required("Please choose Prefered Job Sector!"),
+    prefered_job_sector: Yup.string().required(
+        "Please choose Prefered Job Sector!"
+    ),
     job_title: Yup.string(),
     company_name: Yup.string(),
     company_location: Yup.string(),
@@ -24,7 +26,7 @@ const ResumeSchema = Yup.object().shape({
     job_from_date: Yup.string(),
     job_to_date: Yup.string(),
     work_description: Yup.string(),
-    education_level: Yup.string(),
+    education_level: Yup.string().required("Education should not be empty!"),
     field_of_study: Yup.string(),
     school: Yup.string(),
     school_location: Yup.string(),
@@ -33,7 +35,9 @@ const ResumeSchema = Yup.object().shape({
     edu_time_to: Yup.string(),
     grade: Yup.string(),
     skills: Yup.string().required("Skills should not be empty!"),
-    language_known: Yup.string().required("Language Known should not be empty!"),
+    language_known: Yup.string().required(
+        "Language Known should not be empty!"
+    ),
     online_profile: Yup.string(),
     certificate_title: Yup.string(),
     certification_date: Yup.string(),
@@ -135,7 +139,6 @@ function ResumeForm() {
             };
 
             console.log(resume);
-
         },
     });
 
@@ -427,7 +430,7 @@ function ResumeForm() {
                                 onChange={formik.handleChange}
                             >
                                 <option value="">Select an option</option>
-                                <option value="None">None</option>
+                                <option value="0">None</option>
                                 <option value="1">IT</option>
                                 <option value="3">HR </option>
                                 <option value="2">Marketing</option>
@@ -623,6 +626,11 @@ function ResumeForm() {
                                     name="field_of_study"
                                     id="field_of_study"
                                     placeholder=""
+                                    disabled={
+                                        formik.values.education_level === "None"
+                                            ? true
+                                            : false
+                                    }
                                     value={formik.values.field_of_study}
                                     onChange={formik.handleChange}
                                 />
@@ -641,6 +649,11 @@ function ResumeForm() {
                                     name="school"
                                     id="school"
                                     placeholder=""
+                                    disabled={
+                                        formik.values.education_level === "None"
+                                            ? true
+                                            : false
+                                    }
                                     value={formik.values.school}
                                     onChange={formik.handleChange}
                                 />
@@ -659,6 +672,11 @@ function ResumeForm() {
                                     name="school_location"
                                     id="school_location"
                                     placeholder=""
+                                    disabled={
+                                        formik.values.education_level === "None"
+                                            ? true
+                                            : false
+                                    }
                                     value={formik.values.school_location}
                                     onChange={formik.handleChange}
                                 />
@@ -676,6 +694,12 @@ function ResumeForm() {
                                         name="cur_enrolled"
                                         id="cur_enrolled"
                                         checked={formik.values.cur_enrolled}
+                                        disabled={
+                                            formik.values.education_level ===
+                                            "None"
+                                                ? true
+                                                : false
+                                        }
                                         onChange={(e) =>
                                             formik.setFieldValue(
                                                 "cur_enrolled",
@@ -698,6 +722,12 @@ function ResumeForm() {
                                             name="edu_time_from"
                                             id="edu_time_from"
                                             placeholder=""
+                                            disabled={
+                                                formik.values
+                                                    .education_level === "None"
+                                                    ? true
+                                                    : false
+                                            }
                                             value={formik.values.edu_time_from}
                                             onChange={formik.handleChange}
                                         />
@@ -711,7 +741,9 @@ function ResumeForm() {
                                             id="edu_time_to"
                                             disabled={
                                                 formik.values.cur_enrolled ===
-                                                true
+                                                    true ||
+                                                formik.values
+                                                    .education_level === "None"
                                                     ? true
                                                     : false
                                             }
@@ -735,6 +767,11 @@ function ResumeForm() {
                                     className="form-control"
                                     name="grade"
                                     id="grade"
+                                    disabled={
+                                        formik.values.education_level === "None"
+                                            ? true
+                                            : false
+                                    }
                                     placeholder=""
                                     value={formik.values.grade}
                                     onChange={formik.handleChange}
@@ -907,7 +944,7 @@ function ResumeForm() {
                             </div>
                         </div>
                         <div className="col-md-6">
-                            <div className="d-grid col-md-7 mt-4 m-auto">
+                            <div className="d-grid col-md-7 my-4 m-auto">
                                 <button
                                     className="btn btn-primary"
                                     type="submit"
