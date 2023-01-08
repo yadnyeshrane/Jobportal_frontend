@@ -2809,3 +2809,14 @@ color: red;
   -webkit-box-orient: vertical;  
   overflow: hidden;
 }
+
+#projects p,
+#certficates p,
+#educational_details p,
+#work_details p{
+  margin-bottom: 0px;
+}
+
+.desc_box{
+  margin-top: 15px;
+}

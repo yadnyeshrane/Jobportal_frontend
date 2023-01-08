@@ -1,33 +1,48 @@
-// import { getResume } from "../appi";
+import { useEffect, useState } from "react";
+import { getResume } from "../appi";
 import Category from "../Category/Category";
 import Header from "../Header";
 import Topbar from "../Topbar";
 import Resume from "./Resume";
 
 function EmployeeSec() {
-    // async function getEmployee() {
-    //     const res = await getResume('9920471835')
-    //     console.log("........first",res)
-    // }
-    // getEmployee();
+    const [resumeData, setResumeData] = useState<any>(null);
 
-    const lookingJob = "true";
-    const prefered_job_sector = "";
+    useEffect(() => {
+        async function getEmployee() {
+            const userId = localStorage.getItem("loggedInUser")
+            const res = await getResume(userId);
+            if(res.status === 200){
+                localStorage.setItem('userId',res.message.data._id)
+                setResumeData(res.message.data);
+            }
+        }
+        getEmployee();
+    }, []);
+
+    let lookingJob = resumeData?.lookingJob;
+    let prefered_job_sector = resumeData?.prefered_job_sector;
 
     return (
         <>
             <Topbar />
             <Header />
-            <div className="container">
-                {lookingJob && prefered_job_sector ? (
-                    <div className="d-flex">
-                        <Resume />
-                        <Category prefered_sec={prefered_job_sector} />
-                    </div>
-                ) : (
-                    <Resume />
-                )}
-            </div>
+            {resumeData && (
+                <div className="container">
+                    {lookingJob == 'Yes' && prefered_job_sector ? (
+                        <div className="row p-0">
+                            <div className="col-md-6 m-0" >
+                                <Resume data={resumeData} />
+                            </div>
+                            <div className="col-md-6 m-0">
+                                <Category prefered_sec={prefered_job_sector} />
+                            </div>
+                        </div>
+                    ) : (
+                        <Resume data={resumeData} />
+                    )}
+                </div>
+            )}
         </>
     );
 }

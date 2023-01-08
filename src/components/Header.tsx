@@ -78,6 +78,7 @@ function Header() {
                                 <li
                                     onClick={() => {
                                         localStorage.removeItem("loggedInUser");
+                                        localStorage.removeItem("userId");
                                     }}
                                 >
                                     <a href="" className="headerItem">

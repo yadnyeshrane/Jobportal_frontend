@@ -1,12 +1,14 @@
 import { useFormik } from "formik";
 import Header from "../Header";
 import Topbar from "../Topbar";
-
 import * as Yup from "yup";
 import InputError from "../../common/InputError";
 import moment from "moment";
+import { editResume } from "../appi";
+import { useLocation} from "react-router-dom";
 
 const ResumeSchema = Yup.object().shape({
+    id: Yup.string(),
     firstname: Yup.string(),
     lastname: Yup.string(),
     mobileno: Yup.string(),
@@ -40,6 +42,7 @@ const ResumeSchema = Yup.object().shape({
     ),
     online_profile: Yup.string(),
     certificate_title: Yup.string(),
+    certificate_link: Yup.string(),
     certification_date: Yup.string(),
     project_title: Yup.string(),
     project_link: Yup.string(),
@@ -47,47 +50,59 @@ const ResumeSchema = Yup.object().shape({
 });
 
 function ResumeForm() {
+    const location = useLocation();
+
+    let data = location.state.resumeData;
+
+    const work_Details =  data.work_Details && JSON.parse(data.work_Details);
+    const project_Details = data.project_Details && JSON.parse(data.project_Details);
+    const certification_Details =data.certification_Details && JSON.parse(data.certification_Details);
+    const education_Details = data.education_Details;
+
     const today_date = moment().format("YYYY-MM-DD");
 
     const formik = useFormik({
         initialValues: {
-            firstname: "Peter",
-            lastname: "Parker",
-            mobileno: "9876543210",
-            email: "spiderman@marvels.com",
-            headline: "",
-            job_exp: "",
-            objective: "",
-            relocateFlag: "",
-            lookingJob: "",
-            prefered_job_sector: "",
-            job_title: "",
-            company_name: "",
-            company_location: "",
-            cur_working: false,
-            job_from_date: "",
-            job_to_date: "",
-            work_description: "",
-            education_level: "",
-            field_of_study: "",
-            school: "",
-            school_location: "",
-            cur_enrolled: false,
-            edu_time_from: "",
-            edu_time_to: "",
-            grade: "",
-            skills: "",
-            language_known: "",
-            online_profile: "",
-            certificate_title: "",
-            certification_date: "",
-            project_title: "",
-            project_link: "",
-            project_details: "",
+            id: data?._id,
+            firstname: data?.firstname,
+            lastname: data?.lastname,
+            mobileno: data?.mobileno,
+            email: data?.email,
+            headline: data?.headline || "",
+            job_exp: data?.job_exp || "",
+            objective: data?.objective || "",
+            relocateFlag: data?.relocateFlag || "",
+            lookingJob: data?.lookingJob || "",
+            prefered_job_sector: data?.prefered_job_sector || "",
+            job_title: work_Details[0]?.job_title || "",
+            company_name: work_Details[0]?.company_name || "",
+            company_location: work_Details[0]?.company_location || "",
+            cur_working: work_Details[0]?.cur_working || "",
+            job_from_date: work_Details[0]?.job_from_date || "",
+            job_to_date: work_Details[0]?.job_to_date || "",
+            work_description: work_Details[0]?.work_description || "",
+            education_level: education_Details[0]?.education_level || "",
+            field_of_study: education_Details[0]?.field_of_study || "",
+            school: education_Details[0]?.school || "",
+            school_location: education_Details[0]?.school_location || "",
+            cur_enrolled: education_Details[0]?.cur_enrolled || false,
+            edu_time_from: education_Details[0]?.edu_time_from || "",
+            edu_time_to: education_Details[0]?.edu_time_to || "",
+            grade: education_Details[0]?.grade || "",
+            skills: data?.skills || "",
+            language_known: data?.language_known || "",
+            online_profile: data?.online_profile || "",
+            certificate_title: certification_Details[0]?.certificate_title || "",
+            certificate_link: certification_Details[0].certificate_link || "",
+            certification_date: certification_Details[0]?.certification_date ||  "",
+            project_title: project_Details[0]?.project_title || "",
+            project_link: project_Details[0]?.project_link || "",
+            project_details: project_Details[0]?.project_details ||"",
         },
         validationSchema: ResumeSchema,
-        onSubmit: (values) => {
+        onSubmit: async (values) => {
             const resume = {
+                id: values.id,
                 name: values.firstname + " " + values.lastname,
                 mobileno: values.mobileno,
                 email: values.email,
@@ -97,7 +112,7 @@ function ResumeForm() {
                 relocateFlag: values.relocateFlag,
                 lookingJob: values.lookingJob,
                 prefered_job_sector: values.prefered_job_sector,
-                work_Details: JSON.stringify([
+                work_Details:  JSON.stringify(values.job_title ? [
                     {
                         job_title: values.job_title,
                         company_name: values.company_name,
@@ -107,8 +122,8 @@ function ResumeForm() {
                         job_to_date: values.job_to_date,
                         work_description: values.work_description,
                     },
-                ]),
-                education_Details: [
+                ] : [] ),
+                education_Details: values.education_level ? [
                     {
                         education_level: values.education_level,
                         field_of_study: values.field_of_study,
@@ -119,26 +134,31 @@ function ResumeForm() {
                         edu_time_to: values.edu_time_to,
                         grade: values.grade,
                     },
-                ],
+                ] : [],
                 skills: values.skills,
                 language_known: values.language_known,
                 online_profile: values.online_profile,
-                certification_Details: JSON.stringify([
+                certification_Details:  JSON.stringify(values.certificate_title ? [
                     {
                         certificate_title: values.certificate_title,
+                        certificate_link: values.certificate_link,
                         certification_date: values.certification_date,
                     },
-                ]),
-                project_Details: JSON.stringify([
+                ]: []) ,
+                project_Details:  JSON.stringify(values.project_title ? [
                     {
                         project_title: values.project_title,
                         project_link: values.project_link,
                         project_details: values.project_details,
                     },
-                ]),
+                ] : [] ),
             };
 
-            console.log(resume);
+            const res = await editResume(resume);
+            console.log("...........res", res);
+            if (res.status === 200) {
+                window.location.replace("/employee");
+            }
         },
     });
 
@@ -150,6 +170,7 @@ function ResumeForm() {
             <div className="container mt-3">
                 <form onSubmit={formik.handleSubmit}>
                     <div className="row jumbotron box8">
+                        <input hidden className="" value={formik.values.id} />
                         <div className="col-sm-6">
                             <div className="row">
                                 <div className="col-sm-6">
@@ -430,7 +451,7 @@ function ResumeForm() {
                                 onChange={formik.handleChange}
                             >
                                 <option value="">Select an option</option>
-                                <option value="0">None</option>
+                                <option value="0">All</option>
                                 <option value="1">IT</option>
                                 <option value="3">HR </option>
                                 <option value="2">Marketing</option>
@@ -858,6 +879,25 @@ function ResumeForm() {
                                 <InputError
                                     error={formik.errors.certificate_title}
                                     touched={formik.touched.certificate_title}
+                                />
+                            </div>
+
+                            <div className="col-sm-6 form-group mt-2">
+                                <label htmlFor="certificate_link">
+                                    certification Link
+                                </label>
+                                <input
+                                    type="text"
+                                    className="form-control"
+                                    name="certificate_link"
+                                    id="certificate_link"
+                                    placeholder=""
+                                    value={formik.values.certificate_link}
+                                    onChange={formik.handleChange}
+                                />
+                                <InputError
+                                    error={formik.errors.certificate_link}
+                                    touched={formik.touched.certificate_link}
                                 />
                             </div>
 
