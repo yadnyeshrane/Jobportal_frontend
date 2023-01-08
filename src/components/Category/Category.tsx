@@ -1,14 +1,36 @@
-import Header from "../Header";
-import Topbar from "../Topbar";
+import { ReactNode, useEffect, useState } from "react";
+import { getJobByCategory } from "../appi";
 
-const jobsData = [1, 2, 3, 4, 5, 6];
 
-const Category = () => {
+interface Props {
+    prefered_sec?: ReactNode
+}
+
+function Category({prefered_sec}:Props) {
+    const [selectedSec, setSelectedSec] = useState(prefered_sec)
+    const [jobsData,setJobsData] = useState([])
+
+    useEffect(() => {
+        async function getJob() {
+            let res = await getJobByCategory(selectedSec);
+            setJobsData(res.message.data)            
+        }
+        getJob()
+    }, [selectedSec]);
+
     return (
         <>
-            <div className="container">                                      
-                <div className="input-group mt-2" >
-                    <select className="form-control" id="inputGroupSelect04" defaultValue="0">
+            <div className="container">
+                <div className="input-group mt-2">
+                    <select
+                        className="form-control"
+                        name="job_sector"
+                        id="job_sector"
+                        // defaultValue="0"
+                        // value={selectedSec}
+                        onChange={(e)=>setSelectedSec(e.target.value)}
+                    
+                    >
                         <option value="">Choose...</option>
                         <option value="0">All</option>
                         <option value="1">IT</option>
@@ -24,38 +46,43 @@ const Category = () => {
                         </button>
                     </div>
                 </div>
-                {jobsData.map((data) => (
-                    <div className="card my-2" key={data}>
-                        <div className="card-body">
-                            <h5 className="card-title">
-                                {`< Job Title / Position >`}
-                            </h5>
-                            <h6 className="card-title">{`< Company Name >`}</h6>
+                {jobsData &&
+                    jobsData.map((data: any) => (
+                        <div className="card my-2 job_card" key={data._id}>
+                            <div className="card-body">
+                                <h5 className="card-title">{data.position}</h5>
+                                <h6 className="card-title">
+                                    {data.compnayname}
+                                </h6>
+                                <div className="d-flex">
+                                    <p className="exp_range">
+                                        <i className="bi bi-briefcase-fill"/>
+                                        {data.min_exp}-{data.max_exp} 
+                                    </p>
+                                    <p>
+                                        |&nbsp;&nbsp;<i className="bi bi-cash"/>
+                                        {data.min_salary}-{data.max_salary} 
+                                    </p>
+                                    <p>
+                                        |&nbsp;&nbsp;<i className="bi bi-geo-alt-fill"/>
+                                        {data.adressline_2}
+                                    </p>
+                                </div>
+                                <div className="d-flex">
+                                    <p>
+                                        <i className="bi bi-people-fill"/>
+                                        {data.vacany} 
+                                    </p>
+                                    <p>
+                                        |&nbsp;&nbsp;<i className="bi bi-envelope-at-fill"/>
+                                        {data.companyemail}
+                                    </p>
+                                </div>
 
-                            <div>
-                                <i className="bi bi-briefcase" />
-                                &nbsp;
-                                {`< Experience >`} |&nbsp;&nbsp;
-                                <i className="bi bi-cash" />
-                                &nbsp;
-                                {`< Salery >`} |&nbsp;&nbsp;
-                                <i className="bi bi-geo-alt" />
-                                &nbsp;
-                                {`< location >`}&nbsp;
+                                <p className="card-text">{data.requiredSkills}</p>
                             </div>
-                            <div>
-                                <i className="bi bi-briefcase" />
-                                &nbsp;
-                                {`< vaccency >`} |&nbsp;&nbsp;
-                                <i className="bi bi-cash" />
-                                &nbsp;
-                                {`< company Email >`} |&nbsp;&nbsp;
-                            </div>
-
-                            <p className="card-text">{`< Other text info >`}</p>
                         </div>
-                    </div>
-                ))}
+                    ))}
             </div>
         </>
     );

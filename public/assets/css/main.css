@@ -2790,4 +2790,22 @@ color: red;
   display: flex
 } */
 
+.job_card p{
+  margin-bottom: 0px;
+}
 
+.job_card .bi{
+  margin-right: 10px;
+}
+
+.job_card .d-flex p{
+  margin-right: 15px;
+}
+
+.job_card .card-text{
+  margin-top: 15px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;  
+  overflow: hidden;
+}
