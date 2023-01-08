@@ -17,6 +17,7 @@ import CreateJob from "./components/Employyer/CreateJob";
 import ResumeForm from "./components/Employee/ResumeForm";
 import Resume from "./components/Employee/Resume";
 import EmployeeSec from "./components/Employee/EmployeeSec";
+import Jobdetails from "./components/Employee/Jobdetails";
 
 function App() {
     return (
@@ -34,6 +35,7 @@ function App() {
                     <Route path="/update_resume" element={<ResumeForm />} />
                     <Route path="/employee" element={<EmployeeSec />} />
                     <Route path="/resume" element={<Resume />} />
+                    <Route path="/jobdetails" element={<Jobdetails />} />
                 </Route>
             </Routes>
         </BrowserRouter>
