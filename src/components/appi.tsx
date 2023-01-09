@@ -187,3 +187,27 @@ export async function editResume(resumeData: any) {
 
     return response
 }
+export async function getJobdetails(id:string){
+    const response = await axios({
+        method: "get",
+        url: `http://localhost:5000/api/employee/${id}`,
+        
+        // headers: { "Content-Type": "multipart/form-data" },
+    })
+        .then(function (response) {
+            //handle success
+            return {
+                status: response.status,
+                message: response.data,
+            };
+        })
+        .catch(function (error) {
+            //handle error
+            return {
+                status: error.response.status,
+                message: error.response.data.message,
+            };
+        });
+
+    return response
+}

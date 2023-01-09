@@ -1,8 +1,25 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
+import { getJobdetails } from "../appi";
 import Header from "../Header";
 import Topbar from "../Topbar";
 
 function Jobdetails() {
+    const [searchParams] = useSearchParams();
+    const[data,setData]=useState();
+  
+  useEffect(()=>{
+    var code:any = searchParams.get("id"); // "1234"
+
+    async function getjobdetailsData(){
+  let res=await getJobdetails(code);
+  console.log("Response")
+  if(res.status === 200){
+    //setData(res.msg)
+  }
+    }
+    getjobdetailsData()
+  },[])
     return (
         <>
             <Topbar />

@@ -1,4 +1,5 @@
 import { ReactNode, useEffect, useState } from "react";
+import { useNavigate } from "react-router";
 import { getJobByCategory } from "../appi";
 
 
@@ -8,6 +9,7 @@ interface Props {
 
 function Category({prefered_sec}:Props) {
     const [selectedSec, setSelectedSec] = useState(prefered_sec)
+    const navigate = useNavigate();
     const [jobsData,setJobsData] = useState([])
 
     useEffect(() => {
@@ -17,7 +19,15 @@ function Category({prefered_sec}:Props) {
         }
         getJob()
     }, [selectedSec]);
-
+function showjobdetails(id:string){
+// alert("1");
+console.log("Id",id)
+// navigate(`/jobdetials/${id}`);
+navigate({
+    pathname: '/jobdetails',
+    search: `?id=${id}`
+})
+}
     return (
         <>
             <div className="container">
@@ -48,7 +58,7 @@ function Category({prefered_sec}:Props) {
                 </div>
                 {jobsData &&
                     jobsData.map((data: any) => (
-                        <div className="card my-2 job_card" key={data._id}>
+                        <div className="card my-2 job_card" key={data._id} onClick={()=>showjobdetails(data._id)}>
                             <div className="card-body">
                                 <h5 className="card-title">{data.position}</h5>
                                 <h6 className="card-title">
