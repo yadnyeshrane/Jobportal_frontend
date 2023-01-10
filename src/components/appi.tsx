@@ -190,7 +190,7 @@ export async function editResume(resumeData: any) {
 export async function getJobdetails(id:string){
     const response = await axios({
         method: "get",
-        url: `http://localhost:5000/api/employee/${id}`,
+        url: `http://localhost:5000/api/getJobDetails/${id}`,
         
         // headers: { "Content-Type": "multipart/form-data" },
     })
