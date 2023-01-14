@@ -211,3 +211,26 @@ export async function getJobdetails(id:string){
 
     return response
 }
+
+export async function getEmpByCategory(category_id: any) {
+    const response = await axios({
+        method: "get",
+        url: `http://localhost:5000/api/get-emp-by-category/${category_id}`,
+        // headers: { "Content-Type": "multipart/form-data" },
+    })
+        .then(function (response) {
+            //handle success
+            return {
+                status: response.status,
+                message: response.data,
+            };
+        })
+        .catch(function (error) {
+            //handle error
+            return {
+                status: error.response.status,
+                message: error.response.data.message,
+            };
+        });
+    return response;
+}

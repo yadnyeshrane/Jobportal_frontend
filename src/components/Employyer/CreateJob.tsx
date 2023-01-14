@@ -108,9 +108,6 @@ function CreateJob() {
     });
     return (
         <>
-            <Topbar></Topbar>
-            <Header></Header>
-
             <div className="container mt-3">
             {signupError &&
                         (console.log("signupError", signupError),

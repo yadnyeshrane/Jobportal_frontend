@@ -42,10 +42,10 @@ function Header() {
                                 <li>
                                     <a
                                         className="headerItem"
-                                        href="/createjob"
+                                        href="/employer"
                                         // onClick={handleProfileClick}
                                     >
-                                        CreateJob
+                                        Employer
                                     </a>
                                 </li>
                                 <li>
@@ -60,10 +60,19 @@ function Header() {
                                 <li>
                                     <a
                                         className="headerItem"
-                                        href="/update_resume"
+                                        href="/civil-services"
                                         // onClick={handleProfileClick}
                                     >
-                                        Resume
+                                        Civil Services
+                                    </a>
+                                </li>
+                                <li>
+                                    <a
+                                        className="headerItem"
+                                        href="/matrimony"
+                                        // onClick={handleProfileClick}
+                                    >
+                                        Matrimony
                                     </a>
                                 </li>
                                 <li>
