@@ -19,6 +19,9 @@ export async function editProfileDetails(userData: any) {
     var bodyFormData = new FormData();
     bodyFormData.append("name", userData.name);
     bodyFormData.append("image", userData.image);
+    // bodyFormData.append("userData",userData)
+
+    // console.log(bodyFormData)
 
     const response = await axios({
         method: "put",
@@ -232,5 +235,29 @@ export async function getEmpByCategory(category_id: any) {
                 message: error.response.data.message,
             };
         });
+    return response;
+}
+
+export async function getCandidateData(candidate_id: any) {
+    const response = await axios({
+        method: "get",
+        url: `http://localhost:5000/api/get-emp-all-details/${candidate_id}`,
+        // headers: { "Content-Type": "multipart/form-data" },
+    })
+        .then(function (response) {
+            //handle success
+            return {
+                status: response.status,
+                message: response.data,
+            };
+        })
+        .catch(function (error) {
+            //handle error
+            return {
+                status: error.response.status,
+                message: error.response.data.message,
+            };
+        });
+    
     return response;
 }

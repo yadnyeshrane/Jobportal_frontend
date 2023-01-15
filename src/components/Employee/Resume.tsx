@@ -1,5 +1,4 @@
 import { ReactNode, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import EducationDetails from "./subSection/EducationDetails";
 import CertiificateDetails from "./subSection/CertiificateDetails";
 import ProjectDetails from "./subSection/ProjectDetails";
@@ -13,14 +12,6 @@ interface Props {
 function Resume({ data }: Props) {
     const resumeData: any = data;
 
-    const navigate = useNavigate()
-    const editResume = () => {
-        navigate('/update_resume',{
-            state:{
-                resumeData
-            }
-        })
-    }
 
     
     const {
@@ -260,17 +251,7 @@ function Resume({ data }: Props) {
                             </>
                         )}
                     </div>
-                </div>
-                <div className="d-grid col-md-7 my-4 m-auto">
-                    <button
-                        onClick={() => editResume()}
-                        // href="/update_resume"
-                        className="btn btn-primary"
-                        type="button"
-                    >
-                        Edit Resume
-                    </button>
-                </div>
+                </div>          
             </div>
         </>
     );
