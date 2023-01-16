@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Header from "../Header";
 import Topbar from "../Topbar";
+import CreatedJobList from "./CreatedJobList";
 import CreateJob from "./CreateJob";
 import EmployeeList from "./EmployeeList";
 
@@ -9,7 +10,7 @@ const tabsList = [
         id: "jobs-tab",
         tabTitle: "Jobs",
         targetId: "jobs",
-        tabContent: "JOBS",
+        tabContent: <CreatedJobList />,
     },
     {
         id: "emp-list-tab",
@@ -67,7 +68,7 @@ function EmployerIndexpage() {
                                 role="tabpanel"
                                 aria-labelledby="jobs-tab"
                             >
-                                Jobs
+                               <CreatedJobList />
                             </div>
                             <div
                                 className="tab-pane fade"

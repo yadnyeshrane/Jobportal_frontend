@@ -3,9 +3,10 @@ import { useNavigate } from "react-router";
 
 interface Props {
     cardData?: ReactNode;
+    isEdit?: ReactNode;
 }
 
-function CategoryCard({ cardData }: Props) {
+function CategoryCard({ cardData, isEdit = false}: Props) {
     const navigate = useNavigate();
     const {
         _id,
@@ -32,7 +33,10 @@ function CategoryCard({ cardData }: Props) {
     return (
         <>
             <div onClick={() => showjobdetails(_id)}>
-                <h5 className="card-title">{position}</h5>
+                <div className="d-flex justify-content-between">
+                <h5 className="card-title">{position}</h5> 
+                    {isEdit && <i className="bi bi-pen"  onClick={()=>alert('clicked')}></i>}
+                </div>
                 <h6 className="card-title">{compnayname}</h6>
                 <div className="d-flex">
                     <p className="exp_range">
