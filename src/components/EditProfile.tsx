@@ -3,9 +3,25 @@ import { useNavigate } from 'react-router-dom';
 import { editProfileDetails, fecthUserDeatils } from './appi';
 import Header from './Header'
 import Topbar from './Topbar'
-
+import * as Yup from "yup";
+import { useFormik } from 'formik';
 function EditProfile() {
   const navigate = useNavigate();
+  const SignupSchema = Yup.object().shape({
+    name: Yup.string().required("FirstName should not be empty!"),
+   
+});
+const formik = useFormik({
+  initialValues: {
+      name: "",
+      
+  },
+  validationSchema: SignupSchema,
+  onSubmit: (values) => {
+    console.log("Updated value",values)
+     // handleSignup(values);
+  },
+});
   const [userdata,setUserData]=useState<any>({})
   useEffect(() => {
     getDetails();
@@ -19,6 +35,7 @@ function EditProfile() {
   {
     const data=await fecthUserDeatils("name");
     setUserData(data.data)
+    formik.setValues({"name":data.data.name})
     console.log("Data",data);
   }
   const handleChange=(e:any,type=1)=>{
@@ -52,13 +69,24 @@ navigate("/profile")
               <div className="d-flex justify-content-between align-items-center mb-3">
                 <h4 className="text-right">Profile Edit Settings</h4>
               </div>
+              <form onSubmit={formik.handleSubmit}>
               <div className="row mt-2">
-                <div className="col-md-6"><label className="labels">Name</label><input type="text" className="form-control" placeholder="first name" 
+                <div className="col-md-6"><label className="labels">Name</label>
+                <input type="text" className="form-control" placeholder="first name" 
                 name='name'
-                onChange={(e)=>handleChange(e)}
-                value={userdata.name}
+                id='name'
+                // onChange={(e)=>handleChange(e)}
+                value={formik.values.name}
+                onChange={formik.handleChange}
                 
-                /></div>
+                />
+                {formik.errors.name &&
+                                            formik.touched.name && (
+                                                <p className="error-msg">
+                                                    {formik.errors.name}
+                                                </p>
+                                            )}
+                </div>
                 <div className="col-md-6"><label className="labels">Surname</label><input type="text" className="form-control"  placeholder="surname"
                  value={userdata.surname}
                  name="surname"
@@ -85,10 +113,11 @@ navigate("/profile")
                 <div className="col-md-6"><label className="labels">Country</label><input type="text" className="form-control" placeholder="country"  /></div>
                 <div className="col-md-6"><label className="labels">State/Region</label><input type="text" className="form-control"  placeholder="state" /></div>
               </div>
-              <div className="mt-5 text-center"><button className="btn btn-primary profile-button" type="button"
-              onClick={handleClick}
+              <div className="mt-5 text-center"><button className="btn btn-primary profile-button"  type="submit"
+             // onClick={handleClick}
               
               >Save Profile</button></div>
+              </form>
             </div>
           </div>
           <div className="col-md-4">
