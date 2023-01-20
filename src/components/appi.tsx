@@ -15,17 +15,41 @@ export async function fecthUserDeatils(userid: any) {
 }
 
 export async function editProfileDetails(userData: any) {
+    // name: "",
+    // surname: "",
+    // email: "",
+    // addresLine_1: "",
+    // addresLine_2: "",
+    // pincode: "",
+    // country: "",
+    // state: "",
+    // nativeaddresLine_1: "",
+    // nativeaddresLine_2: "",
+    // nativepincode: "",
+    // educationdetails:'',
+    // occupation
     console.log("userData", userData);
     var bodyFormData = new FormData();
     bodyFormData.append("name", userData.name);
     bodyFormData.append("image", userData.image);
+    bodyFormData.append("email",userData.email);
+    bodyFormData.append("addresLine_1",userData.addresLine_1);
+    bodyFormData.append("addresLine_2",userData.addresLine_2);
+    bodyFormData.append("pincode",userData.pincode);
+    bodyFormData.append("country",userData.country)
+    bodyFormData.append("state",userData.state)
+    bodyFormData.append("nativeaddresLine_1",userData.nativeaddresLine_1)
+    bodyFormData.append("nativeaddresLine_2",userData.nativeaddresLine_2)
+    bodyFormData.append("nativepincode",userData.nativepincode)
+    bodyFormData.append("educationdetails",userData.educationdetails)
+    bodyFormData.append("occupation",userData.occupation)
     // bodyFormData.append("userData",userData)
 
     // console.log(bodyFormData)
 
     const response = await axios({
         method: "put",
-        url: `http://localhost:5000/api/user/${userData._id}`,
+        url: `http://localhost:5000/api/user/${userData.id}`,
         data: bodyFormData,
         headers: { "Content-Type": "multipart/form-data" },
     })

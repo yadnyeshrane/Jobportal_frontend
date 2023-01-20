@@ -21,6 +21,22 @@ function Profile() {
         console.log("Data", data);
     }
 
+    const civilServicesEnum=(value:any)=>{
+  switch(value)
+  {
+    case "0":
+        return "Civil Services"
+    case "1":
+        return "Doctor"
+     case "2":
+        return "Business"
+    case "3":
+        return "Carrer guidance";
+    default:
+        return "other"
+  }
+    }
+
     return (
         <>
             <Topbar />
@@ -111,7 +127,7 @@ function Profile() {
                                         /> */}
                                          <p>
                                         <strong> Address Line 1:</strong>
-                                        &nbsp;&nbsp;
+                                        &nbsp;&nbsp;{userdata.addresLine_1}
                                     </p>
                                     </div>
                                     <div className="col-md-12">
@@ -126,7 +142,7 @@ function Profile() {
                                         /> */}
                                          <p>
                                         <strong> Address Line 2:</strong>
-                                        &nbsp;&nbsp;
+                                        &nbsp;&nbsp;{userdata.addresLine_2}
                                     </p>
                                     </div>
                                     <div className="col-md-12">
@@ -141,7 +157,7 @@ function Profile() {
                                         /> */}
                                         <p>
                                         <strong>  Pincode:</strong>
-                                        &nbsp;&nbsp;
+                                        &nbsp;&nbsp;{userdata.pincode}
                                     </p>
                                     </div>
                                 </div>
@@ -157,7 +173,7 @@ function Profile() {
                                     /> */}
                                       <p>
                                         <strong>  country:</strong>
-                                        &nbsp;&nbsp;
+                                        &nbsp;&nbsp;{userdata.country}
                                     </p>
                                 </div>
                                 <div className="col-md-6">
@@ -172,7 +188,7 @@ function Profile() {
                                     /> */}
                                      <p>
                                         <strong>     State/Region:</strong>
-                                        &nbsp;&nbsp;
+                                        &nbsp;&nbsp;{userdata.state}
                                     </p>
                                 </div>
                             </div>
@@ -201,7 +217,7 @@ function Profile() {
                                 /> */}
                                  <p>
                                         <strong>Address Line 1:</strong>
-                                        &nbsp;&nbsp;
+                                        &nbsp;&nbsp;{userdata.nativeaddresLine_1}
                                     </p>
                             </div>
                             <div className="col-md-12">
@@ -214,7 +230,7 @@ function Profile() {
                                 /> */}
                                 <p>
                                         <strong>Address Line 2:</strong>
-                                        &nbsp;&nbsp;
+                                        &nbsp;&nbsp;{userdata.nativeaddresLine_2}
                                     </p>
                             </div>
                             <div className="col-md-12">
@@ -227,7 +243,7 @@ function Profile() {
                                 /> */}
                                 <p>
                                         <strong>Pincode:</strong>
-                                        &nbsp;&nbsp;
+                                        &nbsp;&nbsp;{userdata.nativepincode}
                                     </p>
                             </div>
                             <div className="col-md-12 py-4">
@@ -235,17 +251,46 @@ function Profile() {
                                 <p>
                                         <strong>Adhar Card:</strong>
                                         &nbsp;&nbsp;
-                                    </p>
-                                <div className="col-md-12">
-                                    <img
+                                        <img
                                         alt=""
-                                        style={{ height: "300px" }}
+                                        style={{ height: "auto" }}
                                         src={
                                             "http://localhost:5000/" +
                                             userdata.image
                                         }
                                     />
+                                    </p>
+                                <div className="col-md-12">
+                                   
                                 </div>
+
+
+                            </div>
+                            <div className="col-md-12">
+                                {/* <label className="labels">Address Line 2</label>
+                                <input
+                                    type="text"
+                                    className="form-control"
+                                    placeholder="enter address line 2"
+                                    style={{ pointerEvents: "none" }}
+                                /> */}
+                                <p>
+                                        <strong>Education Details:</strong>
+                                        &nbsp;&nbsp;{userdata.educationdetails}
+                                    </p>
+                            </div>
+                            <div className="col-md-12">
+                                {/* <label className="labels">Address Line 2</label>
+                                <input
+                                    type="text"
+                                    className="form-control"
+                                    placeholder="enter address line 2"
+                                    style={{ pointerEvents: "none" }}
+                                /> */}
+                                <p>
+                                        <strong>Civil Services:</strong>
+                                        &nbsp;&nbsp;{civilServicesEnum(userdata.occupation)}
+                                    </p>
                             </div>
                         </div>
                     </div>

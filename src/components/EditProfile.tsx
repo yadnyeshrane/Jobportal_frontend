@@ -35,15 +35,18 @@ function EditProfile() {
             nativeaddresLine_2: "",
             nativepincode: "",
             educationdetails:'',
-            occupation:''
+            occupation:'',
+            id:""
         },
         validationSchema: SignupSchema,
-        onSubmit: (values) => {
+        onSubmit: async(values) => {
             const tempobject = {
                 ...values,
                 image: userdata.image,
             };
-            console.log("Updated value", tempobject);
+           // console.log("Updated value", tempobject);
+           console.log("TempObject",tempobject)
+            await editProfileDetails(tempobject);
             // handleSignup(values);
         },
     });
@@ -70,7 +73,8 @@ function EditProfile() {
             nativeaddresLine_2: data.data.nativeaddresLine_2,
             nativepincode: data.data.nativepincode,
             educationdetails:data.data.educationdetails,
-            occupation:data.data.occupation
+            occupation:data.data.occupation,
+            id:data.data._id
         });
         console.log("Data", data);
     }
