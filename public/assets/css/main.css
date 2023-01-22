@@ -2820,3 +2820,8 @@ color: red;
 .desc_box{
   margin-top: 15px;
 }
+
+.titleLine,
+.titleLine h5{
+  font-size: 25px;
+}

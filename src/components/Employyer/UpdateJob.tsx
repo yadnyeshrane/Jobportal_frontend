@@ -1,9 +1,16 @@
-import React, { useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import Header from "../Header";
+import { useSearchParams } from "react-router-dom";
 import Topbar from "../Topbar";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { createJob } from "../appi";
+import { getJobdetails, updateJobdetails } from "../appi";
+import InputError from "../../common/InputError";
+
+interface Props {
+    data?: ReactNode;
+}
+
 const phoneRegExp =
     /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
 
@@ -43,11 +50,64 @@ const SignupSchema = Yup.object().shape({
     ),
     education: Yup.string().required("Education field should not be empty!"),
 });
-function CreateJob() {
+
+function UpdateJob() {
+    const [searchParams] = useSearchParams();
+    const [data, setData] = useState<any>();
+
+    useEffect(() => {
+        var id: any = searchParams.get("id"); // "1234"
+        async function getjobdetailsData() {
+            let res = await getJobdetails(id);
+            console.log("Response", res);
+            if (res.status === 200) {
+                setData(res.message.data);
+            }
+        }
+        getjobdetailsData();
+    }, []);
+
+    return (
+        <>
+            <Topbar />
+            <Header />
+            {data && <JobForm data={data} />}
+        </>
+    );
+}
+
+export const JobForm = ({ data }: Props) => {
     const [signupError, setSignupError] = useState<any>(null);
-    const postJob= async (values: any) => {
-        let job_creator = localStorage.getItem("loggedInUser")
-        let jobdata = {
+
+    const {
+        _id,
+        compnayname,
+        adressline_1,
+        adressline_2,
+        state,
+        postcode,
+        companyemail,
+        comapny_mob,
+        comapny_aletrmob,
+        position,
+        vacany,
+        min_exp,
+        max_exp,
+        min_salary,
+        max_salary,
+        category_enum,
+        categorgy,
+        jobnature,
+        jobdescription,
+        requiredSkills,
+        education,
+        creatorId,
+    }: any = data;
+
+    const postJob = async (values: any) => {
+        let job_creator = localStorage.getItem("loggedInUser");
+        let jobdata: any = {
+            _id: _id,
             compnayname: values.compnayname,
             adressline_1: values.adressline_1,
             adressline_2: values.adressline_2,
@@ -68,58 +128,62 @@ function CreateJob() {
             jobdescription: values.jobdescription,
             requiredSkills: values.requiredSkills,
             education: values.education,
-            creatorId: job_creator
+            creatorId: job_creator,
         };
-        const res = await createJob(jobdata);
+        const res = await updateJobdetails(jobdata, _id);
+        // const res = await createJob(jobdata);
         if (res.status === 200) {
             console.log(res.message);
-           // window.location.replace("/login");
-           alert("Job created sucessfully")
+            // window.location.replace("/login");
+            alert("Job created sucessfully");
+            window.location.replace("/employer");
         } else {
             setSignupError(res.message);
         }
-    }
+    };
+
     const formik = useFormik({
         initialValues: {
-            compnayname: "",
-            adressline_1: "",
-            adressline_2: "",
-            state: "",
-            postcode: "",
-            companyemail: "",
-            comapny_mob: "",
-            comapny_aletrmob: "",
-            position: "",
-            vacany: "",
-            min_exp: "",
-            max_exp: "",
-            min_salary: "",
-            max_salary: "",
-            categorgy: "",
-            jobnature: "",
-            jobdescription: "",
-            requiredSkills: "",
-            education: "",
+            compnayname: compnayname || "",
+            adressline_1: adressline_1 || "",
+            adressline_2: adressline_2 || "",
+            state: state || "",
+            postcode: postcode || "",
+            companyemail: companyemail || "",
+            comapny_mob: comapny_mob || "",
+            comapny_aletrmob: comapny_aletrmob || "",
+            position: position || "",
+            vacany: vacany.toString() || "",
+            min_exp: min_exp.toString() || "0",
+            max_exp: max_exp.toString() || "",
+            min_salary: min_salary.toString() || "0",
+            max_salary: max_salary.toString() || "",
+            categorgy: categorgy || "",
+            jobnature: jobnature || "",
+            jobdescription: jobdescription || "",
+            requiredSkills: requiredSkills || "",
+            education: education || "",
         },
         validationSchema: SignupSchema,
         onSubmit: (values) => {
-            postJob(values)
+            postJob(values);
             //  handleSignup(values);
         },
     });
+
     return (
         <>
             <div className="container mt-3">
-            {signupError &&
-                        (console.log("signupError", signupError),
-                        (
-                            <div
-                                className="alert alert-danger alert-dismissible fade show mt-2 mb-0"
-                                role="alert"
-                            >
-                                <strong>Sorry!</strong>&nbsp;{signupError}
-                            </div>
-                        ))}
+                {signupError &&
+                    (console.log("signupError", signupError),
+                    (
+                        <div
+                            className="alert alert-danger alert-dismissible fade show mt-2 mb-0"
+                            role="alert"
+                        >
+                            <strong>Sorry!</strong>&nbsp;{signupError}
+                        </div>
+                    ))}
                 <form onSubmit={formik.handleSubmit}>
                     <div className="row jumbotron box8">
                         <div className="col-sm-12 mx-t3">
@@ -133,17 +197,15 @@ function CreateJob() {
                                 value={formik.values.categorgy}
                                 onChange={formik.handleChange}
                             >
-                                <option value="">Select</option>
+                                <option value="0">Select</option>
                                 <option value="1">It jobs</option>
-                                <option value="3">Hr(Human Resources)</option>
+                                <option value="3">HR(Human Resources)</option>
                                 <option value="2">Marketing</option>
                             </select>
-                            {formik.errors.categorgy &&
-                                formik.touched.categorgy && (
-                                    <p className="error-msg">
-                                        {formik.errors.categorgy}
-                                    </p>
-                                )}
+                            <InputError
+                                error={formik.errors.categorgy}
+                                touched={formik.touched.categorgy}
+                            />
                         </div>
                         <div className="col-sm-6 "></div>
                         <div className="col-sm-6 form-group mt-4">
@@ -157,12 +219,10 @@ function CreateJob() {
                                 value={formik.values.compnayname}
                                 onChange={formik.handleChange}
                             />
-                            {formik.errors.compnayname &&
-                                formik.touched.compnayname && (
-                                    <p className="error-msg">
-                                        {formik.errors.compnayname}
-                                    </p>
-                                )}
+                            <InputError
+                                error={formik.errors.compnayname}
+                                touched={formik.touched.compnayname}
+                            />
                         </div>
                         <div className="col-sm-6 form-group"></div>
                         <div className="row">
@@ -180,12 +240,10 @@ function CreateJob() {
                                         value={formik.values.adressline_1}
                                         onChange={formik.handleChange}
                                     />
-                                    {formik.errors.adressline_1 &&
-                                        formik.touched.adressline_1 && (
-                                            <p className="error-msg">
-                                                {formik.errors.adressline_1}
-                                            </p>
-                                        )}
+                                    <InputError
+                                        error={formik.errors.adressline_1}
+                                        touched={formik.touched.adressline_1}
+                                    />
                                 </div>
 
                                 <div className=" form-group">
@@ -214,12 +272,10 @@ function CreateJob() {
                                             value={formik.values.state}
                                             onChange={formik.handleChange}
                                         />
-                                        {formik.errors.state &&
-                                            formik.touched.state && (
-                                                <p className="error-msg">
-                                                    {formik.errors.state}
-                                                </p>
-                                            )}
+                                        <InputError
+                                            error={formik.errors.state}
+                                            touched={formik.touched.state}
+                                        />
                                     </div>
                                     <div className="col-sm-4 form-group">
                                         <label htmlFor="Country">Country</label>
@@ -500,7 +556,9 @@ function CreateJob() {
                                             <option value="Iceland">
                                                 Iceland
                                             </option>
-                                            <option value="India">India</option>
+                                            <option selected value="India">
+                                                India
+                                            </option>
                                             <option value="Indonesia">
                                                 Indonesia
                                             </option>
@@ -907,12 +965,10 @@ function CreateJob() {
                                             value={formik.values.postcode}
                                             onChange={formik.handleChange}
                                         />
-                                        {formik.errors.postcode &&
-                                            formik.touched.postcode && (
-                                                <p className="error-msg">
-                                                    {formik.errors.postcode}
-                                                </p>
-                                            )}
+                                        <InputError
+                                            error={formik.errors.postcode}
+                                            touched={formik.touched.postcode}
+                                        />
                                     </div>
                                 </div>
                             </div>
@@ -928,12 +984,10 @@ function CreateJob() {
                                         value={formik.values.companyemail}
                                         onChange={formik.handleChange}
                                     />
-                                    {formik.errors.companyemail &&
-                                        formik.touched.companyemail && (
-                                            <p className="error-msg">
-                                                {formik.errors.companyemail}
-                                            </p>
-                                        )}
+                                    <InputError
+                                        error={formik.errors.companyemail}
+                                        touched={formik.touched.companyemail}
+                                    />
                                 </div>
 
                                 <div className=" form-group">
@@ -948,12 +1002,10 @@ function CreateJob() {
                                         value={formik.values.comapny_mob}
                                         onChange={formik.handleChange}
                                     />
-                                    {formik.errors.comapny_mob &&
-                                        formik.touched.comapny_mob && (
-                                            <p className="error-msg">
-                                                {formik.errors.comapny_mob}
-                                            </p>
-                                        )}
+                                    <InputError
+                                        error={formik.errors.comapny_mob}
+                                        touched={formik.touched.comapny_mob}
+                                    />
                                 </div>
                                 <div className=" form-group">
                                     <label htmlFor="comapny_aletrmob">
@@ -984,12 +1036,10 @@ function CreateJob() {
                                     value={formik.values.position}
                                     onChange={formik.handleChange}
                                 />
-                                {formik.errors.position &&
-                                    formik.touched.position && (
-                                        <p className="error-msg">
-                                            {formik.errors.position}
-                                        </p>
-                                    )}
+                                <InputError
+                                    error={formik.errors.position}
+                                    touched={formik.touched.position}
+                                />
                             </div>
 
                             <div className="row">
@@ -1034,12 +1084,10 @@ function CreateJob() {
                                                 Intern
                                             </label>
                                         </div>
-                                        {formik.errors.jobnature &&
-                                            formik.touched.jobnature && (
-                                                <p className="error-msg">
-                                                    {formik.errors.jobnature}
-                                                </p>
-                                            )}
+                                        <InputError
+                                            error={formik.errors.jobnature}
+                                            touched={formik.touched.jobnature}
+                                        />
                                     </div>
                                 </div>
                                 <div className="col-sm-6">
@@ -1053,12 +1101,10 @@ function CreateJob() {
                                         value={formik.values.vacany}
                                         onChange={formik.handleChange}
                                     />
-                                    {formik.errors.vacany &&
-                                        formik.touched.vacany && (
-                                            <p className="error-msg">
-                                                {formik.errors.vacany}
-                                            </p>
-                                        )}
+                                    <InputError
+                                        error={formik.errors.vacany}
+                                        touched={formik.touched.vacany}
+                                    />
                                 </div>
                             </div>
                             <div className="row">
@@ -1076,12 +1122,10 @@ function CreateJob() {
                                                 value={formik.values.min_exp}
                                                 onChange={formik.handleChange}
                                             />
-                                            {formik.errors.min_exp &&
-                                                formik.touched.min_exp && (
-                                                    <p className="error-msg">
-                                                        {formik.errors.min_exp}
-                                                    </p>
-                                                )}
+                                            <InputError
+                                                error={formik.errors.min_exp}
+                                                touched={formik.touched.min_exp}
+                                            />
                                         </div>
                                         <div className="col-sm-6">
                                             <label htmlFor="max_exp">Max</label>
@@ -1094,12 +1138,10 @@ function CreateJob() {
                                                 value={formik.values.max_exp}
                                                 onChange={formik.handleChange}
                                             />
-                                            {formik.errors.max_exp &&
-                                                formik.touched.max_exp && (
-                                                    <p className="error-msg">
-                                                        {formik.errors.max_exp}
-                                                    </p>
-                                                )}
+                                            <InputError
+                                                error={formik.errors.max_exp}
+                                                touched={formik.touched.max_exp}
+                                            />
                                         </div>
                                     </div>
                                 </div>
@@ -1119,15 +1161,12 @@ function CreateJob() {
                                                 value={formik.values.min_salary}
                                                 onChange={formik.handleChange}
                                             />
-                                            {formik.errors.min_salary &&
-                                                formik.touched.min_salary && (
-                                                    <p className="error-msg">
-                                                        {
-                                                            formik.errors
-                                                                .min_salary
-                                                        }
-                                                    </p>
-                                                )}
+                                            <InputError
+                                                error={formik.errors.min_salary}
+                                                touched={
+                                                    formik.touched.min_salary
+                                                }
+                                            />
                                         </div>
                                         <div className="col-sm-6">
                                             <label htmlFor="max_salary">
@@ -1142,15 +1181,12 @@ function CreateJob() {
                                                 value={formik.values.max_salary}
                                                 onChange={formik.handleChange}
                                             />
-                                            {formik.errors.max_salary &&
-                                                formik.touched.max_salary && (
-                                                    <p className="error-msg">
-                                                        {
-                                                            formik.errors
-                                                                .max_salary
-                                                        }
-                                                    </p>
-                                                )}
+                                            <InputError
+                                                error={formik.errors.max_salary}
+                                                touched={
+                                                    formik.touched.max_salary
+                                                }
+                                            />
                                         </div>
                                     </div>
                                 </div>
@@ -1166,12 +1202,10 @@ function CreateJob() {
                                 value={formik.values.jobdescription}
                                 onChange={formik.handleChange}
                             />
-                            {formik.errors.jobdescription &&
-                                formik.touched.jobdescription && (
-                                    <p className="error-msg">
-                                        {formik.errors.jobdescription}
-                                    </p>
-                                )}
+                            <InputError
+                                error={formik.errors.jobdescription}
+                                touched={formik.touched.jobdescription}
+                            />
                         </div>
                         <div className="form-group">
                             <label htmlFor="education">
@@ -1184,12 +1218,10 @@ function CreateJob() {
                                 value={formik.values.education}
                                 onChange={formik.handleChange}
                             />
-                            {formik.errors.education &&
-                                formik.touched.education && (
-                                    <p className="error-msg">
-                                        {formik.errors.education}
-                                    </p>
-                                )}
+                            <InputError
+                                error={formik.errors.education}
+                                touched={formik.touched.education}
+                            />
                         </div>
                         <div className="form-group">
                             <label htmlFor="requiredSkills">
@@ -1202,12 +1234,10 @@ function CreateJob() {
                                 value={formik.values.requiredSkills}
                                 onChange={formik.handleChange}
                             />
-                            {formik.errors.requiredSkills &&
-                                formik.touched.requiredSkills && (
-                                    <p className="error-msg">
-                                        {formik.errors.requiredSkills}
-                                    </p>
-                                )}
+                            <InputError
+                                error={formik.errors.requiredSkills}
+                                touched={formik.touched.requiredSkills}
+                            />
                         </div>
 
                         <div className="col-sm-12">
@@ -1221,18 +1251,15 @@ function CreateJob() {
                             </label> */}
                         </div>
                         <div className="d-grid col-md-4 mt-5 mb-5 m-auto">
-                       
-                        <button className="btn btn-primary ">
+                            <button type="submit" className="btn btn-primary ">
                                 Submit
                             </button>
-
-                           
                         </div>
                     </div>
                 </form>
             </div>
         </>
     );
-}
+};
 
-export default CreateJob;
+export default UpdateJob;

@@ -24,6 +24,7 @@ import CandidateDetails from "./components/Employyer/CandidateDetails";
 import EmployerIndexpage from "./components/Employyer/EmployerIndexpage";
 import CivilServicesIndex from "./components/CivilServices/CivilServicesIndex";
 import MatrimonyIndexPage from "./components/Matrimony/MatrimonyIndexPage";
+import UpdateJob from "./components/Employyer/UpdateJob";
 
 function App() {
     return (
@@ -47,6 +48,7 @@ function App() {
                     <Route path="/jobdetails" element={<Jobdetails />} />
                     <Route path="/employeelist" element={<EmployeeList />} />
                     <Route path="/candidate-details" element={<CandidateDetails />} />
+                    <Route path="/update-job" element={<UpdateJob />} />
                 </Route>
             </Routes>
         </BrowserRouter>

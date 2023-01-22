@@ -1,5 +1,6 @@
 import React, { ReactNode } from "react";
 import { useNavigate } from "react-router";
+import { deleteSelectedJob } from "../appi";
 
 interface Props {
     cardData?: ReactNode;
@@ -30,12 +31,44 @@ function CategoryCard({ cardData, isEdit = false}: Props) {
         });
     }
 
+    async function deleteJob(event: any, id: string) {
+        event.stopPropagation()
+        const res = await deleteSelectedJob(id)
+        if(res.status == '200'){
+            alert(`Job Deleted Successfully.....`)
+            window.location.reload()
+        }
+    }
+
+    async function updateJob(event: any, id: string) {
+        event.stopPropagation()
+        console.log("Id", id);
+        navigate({
+            pathname: "/update-job",
+            search: `?id=${id}`,
+        });
+    }
+
     return (
         <>
             <div onClick={() => showjobdetails(_id)}>
-                <div className="d-flex justify-content-between">
-                <h5 className="card-title">{position}</h5> 
-                    {isEdit && <i className="bi bi-pen"  onClick={()=>alert('clicked')}></i>}
+                <div className="d-flex titleLine justify-content-between">
+                    <h5 className="card-title">{position}</h5>
+                    {isEdit && (
+                        <div>
+                            <i
+                                className="bi bi-pen"
+                                onClick={(event) => {
+                                    updateJob(event, _id);
+                                }}
+                            />
+                            <i
+                                className="bi bi-trash-fill"
+                                onClick={(event) => deleteJob(event, _id)}
+                                style={{ color: "red" }}
+                            />
+                        </div>
+                    )}
                 </div>
                 <h6 className="card-title">{compnayname}</h6>
                 <div className="d-flex">
