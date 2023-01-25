@@ -1,7 +1,7 @@
 import axios from "axios";
 
-// const apiUrl = "http://localhost:5000";
-const apiUrl = "https://jobportal-backend-ihl6f7n8h-yadnyeshrane.vercel.app"
+ const apiUrl = "http://localhost:5000";
+//const apiUrl = "https://jobportal-backend-ihl6f7n8h-yadnyeshrane.vercel.app"
 
 export async function fecthUserDeatils(userid: any) {
     const usermobilenumber = localStorage.getItem("loggedInUser");
@@ -50,7 +50,7 @@ export async function editProfileDetails(userData: any) {
     // console.log(bodyFormData)
     const response = await axios({
         method: "put",
-        url: `${apiUrl}/api/user/${userData._id}`,
+        url: `${apiUrl}/api/user/${userData.id}`,
         data: bodyFormData,
         headers: { "Content-Type": "multipart/form-data" },
     })

@@ -53,7 +53,7 @@ function ResumeForm() {
     const location = useLocation();
 
     let data = location.state.resumeData;
-
+console.log("Data",data);
     const work_Details =  data.work_Details && JSON.parse(data.work_Details);
     const project_Details = data.project_Details && JSON.parse(data.project_Details);
     const certification_Details =data.certification_Details && JSON.parse(data.certification_Details);
@@ -93,7 +93,7 @@ function ResumeForm() {
             language_known: data?.language_known || "",
             online_profile: data?.online_profile || "",
             certificate_title: certification_Details[0]?.certificate_title || "",
-            certificate_link: certification_Details[0].certificate_link || "",
+            certificate_link: certification_Details[0]?.certificate_link || "",
             certification_date: certification_Details[0]?.certification_date ||  "",
             project_title: project_Details[0]?.project_title || "",
             project_link: project_Details[0]?.project_link || "",
