@@ -4,45 +4,38 @@ function Services() {
     const categories = [
         {
             id: 1,
-            name: "Home",
+            name: "मुळ ठिकाण /गृह ",
             summery:
-                "Imact provides free services like posting a job,creating a job, providing civil services.These services can avail by anyone which are completely free..!",
-            href: "/category",
+                "प्रभाव विनामूल्य सेवा प्रदान करते. जसे नोकरी नियुक्ती, नोकऱ्यांची उपलब्धता, तसेच नागरी सेवा प्रदान. या सेवेचा लाभ कोणीही विनामूल्य घेऊ शकतो.",
+            href: "/",
         },
         {
-            id: 1,
-            name: "Profile",
+            id: 2,
+            name: "रूपरेखा",
             summery:
-                "A profile info where user can see his profile and if needed he can update the profie.Profile is manditory for using our services so go huury up please update it fast .",
-            href: "/category",
+                "इथे वापरकर्ता स्वतःची रूपरेखा कधीही पाहू शकतो, तसेच गरज वाटल्यास तो लागलीच अद्यायावत सुद्धा करू शकतो. त्वरीत व लगेच अद्यायावत करा, कारण आमच्या सेवेचा लाभ घेण्यासाठी रुपरेखा अद्यायावत करणे अनिर्वाय आहे.",
+            href: "/profile",
         },
         {
-            id: 1,
-            name: "Employye",
+            id: 3,
+            name: "नियोक्ता",
             summery:
-                "A Employee section where a partiuclar user can update his professionald details & he can avail the free services provided by impact by accepting terms and condition",
-            href: "/category",
+                "एक नियोक्ता जो नोकऱ्या उपलब्ध करू शकतो व नोकरी उपलब्धता ही सेवा विनामुल्य आहे.",
+            href: "/employee",
         },
         {
-            id: 1,
-            name: "Employyer",
+            id: 4,
+            name: "नागरी सेवा",
             summery:
-                "A Employer is one who can create a job .Creating a job is completely free!",
-            href: "/category",
+                "लष्करी, न्यायीक शाखा व निवडून आलेले राजकरणी सोडून राज्य प्रशासनाच्या कायमस्वरूपी व्यवसायीक शाखा. ",
+            href: "/civil-services",
         },
         {
-            id: 1,
-            name: "IT",
+            id: 5,
+            name: "विवाह",
             summery:
-                "Provident nihil minus qui consequatur non omnis maiores. Eos accusantium minus dolores iure perferendis tempore et consequatur.",
-            href: "/category",
-        },
-        {
-            id: 1,
-            name: "IT",
-            summery:
-                "Provident nihil minus qui consequatur non omnis maiores. Eos accusantium minus dolores iure perferendis tempore et consequatur.",
-            href: "/category",
+                "लग्न ज्याला आपण विवाह किंवा विवाह बंधन म्हणतो व ते सांस्कृतीकदृष्ट्या, कायदेशीर मान्यता दृष्ट्या जोडीदारांना ( नवरा-बायको ) एकसंध करते. विवाह हा नवरा बायको, त्यांची मुले व सासू-सासरे यांच्यात स्थापित अधिकार व दायित्वे निर्माण करतो.",
+            href: "/matrimony",
         },
     ];
 
