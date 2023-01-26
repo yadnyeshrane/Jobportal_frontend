@@ -47,6 +47,7 @@ function EditProfile() {
            // console.log("Updated value", tempobject);
            console.log("TempObject",tempobject)
             await editProfileDetails(tempobject);
+            navigate("/profile");
             // handleSignup(values);
         },
     });

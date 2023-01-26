@@ -198,13 +198,13 @@ function Profile() {
                         <div className="p-3 py-5">
                             <div className="d-flex justify-content-between align-items-center experience">
                                 <h4>Native Place adress</h4>
-                                <span
+                                {/* <span
                                     className="border px-3 p-1 add-experience"
                                     onClick={editProfile}
                                 >
                                     <i className="fa fa-plus" />
                                     &nbsp;Edit
-                                </span>
+                                </span> */}
                             </div>
                             <br />
                             <div className="col-md-12">
@@ -293,8 +293,16 @@ function Profile() {
                                     </p>
                             </div>
                         </div>
+                        
                     </div>
+                    
                 </div>
+                <div className="row">
+                <div className="d-grid col-md-4 mx-auto">
+                        <button className="btn btn-primary" type="button"   onClick={editProfile}>Edit Profile</button></div>
+                </div>
+
+               
             </div>
         </>
     );
