@@ -20,6 +20,14 @@ const SignupSchema = Yup.object().shape({
 
 function Login() {
     const [loginError, setLoginError] = useState<any>(null);
+    const [passwordType, setPasswordType] = useState("password");
+    const togglePassword = () => {
+        if (passwordType === "password") {
+            setPasswordType("text");
+            return;
+        }
+        setPasswordType("password");
+    };
 
     const handleLogin = async (values: any) => {
         console.log(values);
@@ -109,15 +117,28 @@ function Login() {
                                         >
                                             Password
                                         </label>
-                                        <input
-                                            id="password"
-                                            type="password"
-                                            name="password"
-                                            className="form-control"
-                                            placeholder="Enter Password"
-                                            value={formik.values.password}
-                                            onChange={formik.handleChange}
-                                        />
+                                        <div className="input-group">
+                                            <input
+                                                id="password"
+                                                type={passwordType}
+                                                name="password"
+                                                className="form-control"
+                                                placeholder="Enter Password"
+                                                value={formik.values.password}
+                                                onChange={formik.handleChange}
+                                            />
+                                            <span
+                                                className="input-group-text"
+                                                id="inputGroupEmail"
+                                                onClick={togglePassword}
+                                            >
+                                                {passwordType === "password" ? (
+                                                    <i className="bi bi-eye-slash"></i>
+                                                ) : (
+                                                    <i className="bi bi-eye"></i>
+                                                )}
+                                            </span>
+                                        </div>
                                         {formik.errors.password &&
                                             formik.touched.password && (
                                                 <p className="error-msg">

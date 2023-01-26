@@ -28,29 +28,30 @@ function Category({ prefered_sec }: Props) {
                         id="job_sector"
                         onChange={(e) => setSelectedSec(e.target.value)}
                     >
-                        <option value="">Choose...</option>
-                        <option value="0">All</option>
-                        <option value="1">IT</option>
-                        <option value="3">HR</option>
-                        <option value="2">Marketing</option>
+                        <option value="" disabled>Choose...</option>
+                        <option value="0" selected={prefered_sec == "0" && true}>All</option>
+                        <option value="1" selected={prefered_sec == "1" && true}>IT</option>
+                        <option value="3" selected={prefered_sec == "3" && true}>HR</option>
+                        <option value="2" selected={prefered_sec == "2" && true}>Marketing</option>
                     </select>
-                    <div className="input-group-append">
-                        <button
-                            className="btn btn-primary bltn-block"
-                            type="button"
-                        >
-                            Submit
-                        </button>
-                    </div>
+                    <span
+                        className="input-group-text"
+                        id="inputGroupEmail"
+                    >
+                        <i className="bi bi-search"></i>
+                    </span>                       
                 </div>
-                {jobsData &&
+                {jobsData && jobsData.length > 0 ?
                     jobsData.map((data: any) => (
                         <div className="card my-2 job_card" key={data._id}>
                             <div className="card-body">
                                 <CategoryCard cardData={data} />
                             </div>
                         </div>
-                    ))}
+                    ))
+                    :
+                    <h2 className="text-center mt-5">No Records Found</h2>
+                }
             </div>
         </>
     );

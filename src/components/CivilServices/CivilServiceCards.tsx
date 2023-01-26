@@ -1,25 +1,35 @@
-import React from 'react'
+import React, { ReactNode } from "react";
+import { civilServices_list } from "../../common/StaticData";
 
-function CivilServiceCards() {
-  return (
-    <div>
-    <h5 className="card-title">
-        {`firstname`}&nbsp;{`lastname`}
-    </h5>
-    <h6 className="card-title">{`headline`}</h6>
-    <div className="d-flex">
-        <p className="exp_range">
-            <i className="bi bi-briefcase-fill" />
-            {`job_exp`}
-        </p>
-        <p>
-            |&nbsp;&nbsp;
-            <i className="bi bi-geo-alt-fill" />
-            {"Employee City"}
-        </p>
-    </div>
-</div>
-  )
+interface Props {
+    empData?: ReactNode;
 }
 
-export default CivilServiceCards
+function CivilServiceCards({ empData }: Props) {
+    const { _id, name, surname, occupation, addresLine_2, mobileno }: any =
+        empData;
+
+    return (
+        <div>
+            <h5 className="card-title">
+                {name}&nbsp;{surname}
+            </h5>
+            <h6 className="card-title">{civilServices_list(occupation)}</h6>
+            <div className="d-flex">
+                <p className="exp_range">
+                    <i className="bi bi-telephone-fill" />
+                    {mobileno}
+                </p>
+                {addresLine_2 && (
+                    <p>
+                        |&nbsp;&nbsp;
+                        <i className="bi bi-geo-alt-fill" />
+                        {addresLine_2}
+                    </p>
+                )}
+            </div>
+        </div>
+    );
+}
+
+export default CivilServiceCards;

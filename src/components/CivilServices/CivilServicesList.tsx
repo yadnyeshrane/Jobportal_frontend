@@ -1,32 +1,32 @@
 import React, { useEffect, useState } from "react";
-import { getEmpByCategory } from "../appi";
-import EmployeeCard from "../Employyer/EmployeeCard";
-
+import { getCivilServents } from "../appi";
+import CivilServiceCards from "./CivilServiceCards";
 
 function CivilServicesList() {
     const [empData, setEmpData] = useState([]);
 
     useEffect(() => {
         async function getEmp() {
-            let res = await getEmpByCategory("All");
+            let res = await getCivilServents();
             setEmpData(res.message.data);
         }
         getEmp();
     }, []);
-  return (<>
-    <div>CivilServicesList</div>
-    <div className="container">
+    return (
+        <>
+            <div className="container">
+                <h2 className="text-center mb-3">Civil Servents</h2>
                 {empData &&
                     empData.map((item: any) => (
                         <div className="card my-2 job_card" key={item._id}>
                             <div className="card-body">
-                                <EmployeeCard empData={item} />
+                                <CivilServiceCards empData={item} />
                             </div>
                         </div>
                     ))}
             </div>
-  </>
-  )
+        </>
+    );
 }
 
-export default CivilServicesList
+export default CivilServicesList;

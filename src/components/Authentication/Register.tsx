@@ -28,6 +28,8 @@ const SignupSchema = Yup.object().shape({
 
 const Register = () => {
     const [signupError, setSignupError] = useState<any>(null);
+    const [passwordType, setPasswordType] = useState("password");
+    const [cnfrmPasswordType, setCnfrmPasswordType] = useState("password")
 
     const handleSignup = async (values: any) => {
         let userData = {
@@ -201,15 +203,34 @@ const Register = () => {
                                         <label className="labels required">
                                             Password
                                         </label>
-                                        <input
-                                            id="password"
-                                            name="password"
-                                            type="password"
-                                            className="form-control"
-                                            placeholder="Enter Password"
-                                            value={formik.values.password}
-                                            onChange={formik.handleChange}
-                                        />
+                                        <div className="input-group">
+                                            <input
+                                                id="password"
+                                                name="password"
+                                                type={passwordType}
+                                                className="form-control"
+                                                placeholder="Enter Password"
+                                                value={formik.values.password}
+                                                onChange={formik.handleChange}
+                                            />
+                                            <span
+                                                className="input-group-text"
+                                                id="inputGroupEmail"
+                                                onClick={() => {
+                                                    if (passwordType === "password") {
+                                                        setPasswordType("text");
+                                                        return;
+                                                    }
+                                                    setPasswordType("password");
+                                                }}
+                                            >
+                                                {passwordType === "password" ? (
+                                                    <i className="bi bi-eye-slash"></i>
+                                                ) : (
+                                                    <i className="bi bi-eye"></i>
+                                                )}
+                                            </span>
+                                        </div>
                                         {formik.errors.password &&
                                             formik.touched.password && (
                                                 <p className="error-msg">
@@ -221,17 +242,34 @@ const Register = () => {
                                         <label className="labels required">
                                             Confirm Password
                                         </label>
-                                        <input
-                                            id="confirm_password"
-                                            name="confirm_password"
-                                            type="password"
-                                            className="form-control"
-                                            placeholder="Re-enter Password"
-                                            value={
-                                                formik.values.confirm_password
-                                            }
-                                            onChange={formik.handleChange}
-                                        />
+                                        <div className="input-group">
+                                            <input
+                                                id="confirm_password"
+                                                name="confirm_password"
+                                                type={cnfrmPasswordType}
+                                                className="form-control"
+                                                placeholder="Re-enter Password"
+                                                value={formik.values.confirm_password}
+                                                onChange={formik.handleChange}
+                                            />
+                                            <span
+                                                className="input-group-text"
+                                                id="inputGroupEmail"
+                                                onClick={() => {
+                                                    if (cnfrmPasswordType === "password") {
+                                                        setCnfrmPasswordType("text");
+                                                        return;
+                                                    }
+                                                    setCnfrmPasswordType("password");
+                                                }}
+                                            >
+                                                {cnfrmPasswordType === "password" ? (
+                                                    <i className="bi bi-eye-slash"></i>
+                                                ) : (
+                                                    <i className="bi bi-eye"></i>
+                                                )}
+                                            </span>
+                                        </div>
                                         {formik.errors.confirm_password &&
                                             formik.touched.confirm_password && (
                                                 <p className="error-msg">
