@@ -29,6 +29,7 @@ function Header() {
                             <a
                                 href="/"
                                 className="headerItem"
+                                style={{color:"/"?"#f85a40":""}}
                                 // onClick={handleHomeClick}
                             >
                                 Home
@@ -43,6 +44,7 @@ function Header() {
                                     <a
                                         className="headerItem"
                                         href="/employer"
+
                                         // onClick={handleProfileClick}
                                     >
                                         Employer
