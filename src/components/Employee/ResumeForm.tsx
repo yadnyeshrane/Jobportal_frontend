@@ -815,6 +815,9 @@ console.log("Data",data);
                                     value={formik.values.skills}
                                     onChange={formik.handleChange}
                                 />
+                                <em style={{ fontSize: "12px" }}>
+                                       If you have multiple skills please sperate with comma (Eg:Excel,Tally)
+                                    </em>
                                 <InputError
                                     error={formik.errors.skills}
                                     touched={formik.touched.skills}
@@ -832,6 +835,9 @@ console.log("Data",data);
                                     value={formik.values.language_known}
                                     onChange={formik.handleChange}
                                 />
+                                <em style={{ fontSize: "12px" }}>
+                                       If you know multiple langauges please sperate with comma (Eg:Marathi,Hindi)
+                                    </em>
                                 <InputError
                                     error={formik.errors.language_known}
                                     touched={formik.touched.language_known}

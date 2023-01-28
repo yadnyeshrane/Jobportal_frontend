@@ -29,7 +29,7 @@ function Header() {
                             <a
                                 href="/"
                                 className="headerItem"
-                                style={{color:"/"?"#f85a40":""}}
+                              //  style={{color:"/"?"#f85a40":""}}
                                 // onClick={handleHomeClick}
                             >
                                 Home
