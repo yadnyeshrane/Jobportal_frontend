@@ -1,7 +1,9 @@
 import axios from "axios";
 
- const apiUrl = "http://localhost:5000";
-//const apiUrl = "https://jobportal-backend-ihl6f7n8h-yadnyeshrane.vercel.app"
+ //const apiUrl = "http://localhost:5000";
+//  https://jobportal-backend-q4xv2vw2c-yadnyeshrane.vercel.app
+// //const apiUrl = "https://jobportal-backend-ihl6f7n8h-yadnyeshrane.vercel.app"
+const apiUrl=" https://jobportal-backend-q4xv2vw2c-yadnyeshrane.vercel.app";
 
 export async function fecthUserDeatils(userid: any) {
     const usermobilenumber = localStorage.getItem("loggedInUser");
