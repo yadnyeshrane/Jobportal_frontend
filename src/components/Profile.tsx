@@ -255,7 +255,7 @@ function Profile() {
                                         alt=""
                                         style={{ height: "auto" }}
                                         src={
-                                            "http://localhost:5000/" +
+                                           
                                             userdata.image
                                         }
                                     />

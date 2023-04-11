@@ -33,28 +33,28 @@ export async function editProfileDetails(userData: any) {
     // nativepincode: "",
     // educationdetails:'',
     // occupation
-    console.log("userData", userData);
-    var bodyFormData = new FormData();
-    bodyFormData.append("name", userData.name);
-    bodyFormData.append("image", userData.image);
-    bodyFormData.append("email", userData.email);
-    bodyFormData.append("addresLine_1", userData.addresLine_1);
-    bodyFormData.append("addresLine_2", userData.addresLine_2);
-    bodyFormData.append("pincode", userData.pincode);
-    bodyFormData.append("country", userData.country);
-    bodyFormData.append("state", userData.state);
-    bodyFormData.append("nativeaddresLine_1", userData.nativeaddresLine_1);
-    bodyFormData.append("nativeaddresLine_2", userData.nativeaddresLine_2);
-    bodyFormData.append("nativepincode", userData.nativepincode);
-    bodyFormData.append("educationdetails", userData.educationdetails);
-    bodyFormData.append("occupation", userData.occupation);
+    // console.log("userData", userData);
+    // var bodyFormData = new FormData();
+    // bodyFormData.append("name", userData.name);
+    // bodyFormData.append("image", userData.image);
+    // bodyFormData.append("email", userData.email);
+    // bodyFormData.append("addresLine_1", userData.addresLine_1);
+    // bodyFormData.append("addresLine_2", userData.addresLine_2);
+    // bodyFormData.append("pincode", userData.pincode);
+    // bodyFormData.append("country", userData.country);
+    // bodyFormData.append("state", userData.state);
+    // bodyFormData.append("nativeaddresLine_1", userData.nativeaddresLine_1);
+    // bodyFormData.append("nativeaddresLine_2", userData.nativeaddresLine_2);
+    // bodyFormData.append("nativepincode", userData.nativepincode);
+    // bodyFormData.append("educationdetails", userData.educationdetails);
+    // bodyFormData.append("occupation", userData.occupation);
     // bodyFormData.append("userData",userData)
     // console.log(bodyFormData)
     const response = await axios({
         method: "put",
         url: `${apiUrl}/api/user/${userData.id}`,
-        data: bodyFormData,
-        headers: { "Content-Type": "multipart/form-data" },
+        data: userData,
+       // headers: { "Content-Type": "multipart/form-data" },
     })
         .then(function (response) {
             //handle success

@@ -21,6 +21,18 @@ function EditProfile() {
         educationdetails:Yup.string().required("Education details are required"),
         occupation:Yup.string().required("occupation field cannot be empty")
     });
+    const convertToBase64 = (image:any) => {
+        const reader = new FileReader()
+    
+        reader.readAsDataURL(image)
+    
+        reader.onload = () => {
+          console.log('called: ', reader.result);
+          setUserData({...useState,image:reader.result})
+          //return reader.result;
+        //  setBase64IMG(reader.result)
+        }
+      }
     const formik = useFormik({
         initialValues: {
             name: "",
@@ -42,7 +54,7 @@ function EditProfile() {
         onSubmit: async(values) => {
             const tempobject = {
                 ...values,
-                image: userdata.image,
+              image: userdata.image,
             };
            // console.log("Updated value", tempobject);
            console.log("TempObject",tempobject)
@@ -80,10 +92,16 @@ function EditProfile() {
         console.log("Data", data);
     }
     const handleChange = (e: any, type = 1) => {
+        // if(e.target.name =="image")
+        // {
+        //     convertToBase64(e.target.value)
+        //     return ;
+        // }
         if (type == 1) {
             setUserData({ ...userdata, [e.target.name]: e.target.value });
         } else {
-            setUserData({ ...userdata, [e.target.name]: e.target.files[0] });
+            convertToBase64( e.target.files[0])
+            //setUserData({ ...userdata, [e.target.name]: e.target.files[0] });
         }
     };
 
